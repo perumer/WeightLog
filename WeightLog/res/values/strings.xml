@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="hello">Hello World, WeightLogActivity!</string>
+    <string name="app_name">WeightLog</string>
+    <string name="randomButton">Press for new Random Number</string>
+    <string name="load">Show Database Entries</string>
+    <string name="save">save</string>
+    <string name="test">test</string>
+    <string name="graph">Graph anzeigen</string>
+
+</resources>
