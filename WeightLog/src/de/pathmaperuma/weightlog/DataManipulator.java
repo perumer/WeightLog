@@ -84,14 +84,16 @@ public class DataManipulator {
 
 	public List<String[]> selectAll() {
 		List<String[]> list = new ArrayList<String[]>();
-		Cursor cursor = db.query(TABLE_NAME, null, null, null, null, null, null);
-		int x = 0;
+		Cursor cursor = db.query(TABLE_NAME, null, null, null, null, null,
+				"date asc");
 		if (cursor.moveToFirst()) {
 			do {
-				String[] b1 = new String[] { cursor.getString(0),
-						cursor.getString(1), cursor.getString(2) };
-				list.add(b1);
-				x = x + 1;
+				String[] row = new String[] { cursor.getString(0),
+						cursor.getString(1), cursor.getString(2),
+						cursor.getString(3), cursor.getString(4),
+						cursor.getString(5), cursor.getString(6),
+						cursor.getString(7) };
+				list.add(row);
 			} while (cursor.moveToNext());
 		}
 		if (cursor != null && !cursor.isClosed()) {

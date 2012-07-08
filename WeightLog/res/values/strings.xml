@@ -8,5 +8,6 @@
     <string name="save">save</string>
     <string name="test">test</string>
     <string name="graph">Graph anzeigen</string>
+    <string name="export">export DB to file</string>
 
 </resources>

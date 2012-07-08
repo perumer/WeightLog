@@ -1,5 +1,8 @@
 package de.pathmaperuma.weightlog;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.OutputStreamWriter;
 import java.util.Date;
 import java.util.List;
 
@@ -7,6 +10,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Environment;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -68,6 +72,8 @@ public class WeightLogActivity extends Activity {
 		
 		Date now = new Date();
 		
+//		DateTime now = new DateTime();
+		
 		lastSaved.setText("Last saved: "+getNiceDateFromUnixTime(now.getTime()));
 		saveReading(now, weight, fat, water, muscle, kcal, bone);
 		return;
@@ -87,9 +93,20 @@ public class WeightLogActivity extends Activity {
 //    		String niceDate = getNiceDateFromUnixTime(Long.parseLong(s[1]));
 //    		content.append(s[0]+ " | " + niceDate+ " | " + s[2]+" | "+s[3]+" | "+ s[4]+" | "+ s[5]+" | "+ s[6]+" | "+ s[7]+"\n");
 //    	}
+    }
+
+    public void exportButtonHandler(View view){
+    	DataManipulator dh = new DataManipulator(this);
+    	List<String[]> rows = dh.selectAll();
+    	String exportData = new String();
     	
-    	
-    	
+    	for (String[] row : rows){
+    		for (String field :row){
+    			exportData += field+";";
+    		}
+    		exportData += "\n";
+    	}
+    	writeExportData(exportData);
     }
     
     private void saveReading(Date now, float weight, float fat, float water, float muscle, int kcal, float bone) {
@@ -105,5 +122,34 @@ public class WeightLogActivity extends Activity {
 		Date readingDate = new Date(date);
 		String niceDate = (1900+readingDate.getYear())+"-"+readingDate.getMonth()+"-"+readingDate.getDate();
     	return niceDate;
+    }
+    
+    private void out(String s){
+    	Toast.makeText(getApplicationContext(), s, Toast.LENGTH_SHORT).show();
+    }
+    private void outLong(String s){
+    	Toast.makeText(getApplicationContext(), s, Toast.LENGTH_LONG).show();
+    }
+    
+   
+    
+    private void writeExportData(String data){
+    	try{
+//    		File myFile = new File(this.getFilesDir()+"WeightLogExport.csv");
+    		File myFile = new File(Environment.getExternalStorageDirectory(),"WeightLogExport.csv");
+    		out("Path is"+myFile.getAbsolutePath());
+    		myFile.createNewFile();
+    		FileOutputStream fOut = new FileOutputStream(myFile);
+    		OutputStreamWriter writer = new OutputStreamWriter(fOut);
+    		writer.append(data);
+    		writer.close();
+    		fOut.close();
+    		out("Data successfully written");
+    	}
+    	catch (Exception e){
+    		Toast.makeText(getBaseContext(), e.getMessage(),
+					Toast.LENGTH_LONG).show();
+    		
+    	}
     }
 }
