@@ -17,12 +17,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class WeightLogActivity extends Activity {
-    
+    private UserFeedback feedback;
 	private DataManipulator dataManipulator; 
 	
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        feedback = new UserFeedback(getApplicationContext());
         setContentView(R.layout.main);
     	this.dataManipulator = new DataManipulator(this);
     }
@@ -106,7 +107,8 @@ public class WeightLogActivity extends Activity {
     		}
     		exportData += "\n";
     	}
-    	writeExportData(exportData);
+    	WeightDataIo io = new WeightDataIo();
+    	writeExportData(exportData, io);
     }
     
     private void saveReading(Date now, float weight, float fat, float water, float muscle, int kcal, float bone) {
@@ -124,27 +126,18 @@ public class WeightLogActivity extends Activity {
     	return niceDate;
     }
     
-    private void out(String s){
-    	Toast.makeText(getApplicationContext(), s, Toast.LENGTH_SHORT).show();
-    }
-    private void outLong(String s){
-    	Toast.makeText(getApplicationContext(), s, Toast.LENGTH_LONG).show();
-    }
-    
-   
-    
-    private void writeExportData(String data){
+    private void writeExportData(String data, WeightDataIo io){
     	try{
 //    		File myFile = new File(this.getFilesDir()+"WeightLogExport.csv");
     		File myFile = new File(Environment.getExternalStorageDirectory(),"WeightLogExport.csv");
-    		out("Path is"+myFile.getAbsolutePath());
+    		feedback.out("Path is"+myFile.getAbsolutePath());
     		myFile.createNewFile();
     		FileOutputStream fOut = new FileOutputStream(myFile);
     		OutputStreamWriter writer = new OutputStreamWriter(fOut);
     		writer.append(data);
     		writer.close();
     		fOut.close();
-    		out("Data successfully written");
+    		feedback.out("Data successfully written");
     	}
     	catch (Exception e){
     		Toast.makeText(getBaseContext(), e.getMessage(),
