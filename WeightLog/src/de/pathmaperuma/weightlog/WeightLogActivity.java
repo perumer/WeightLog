@@ -14,14 +14,13 @@ import android.widget.Toast;
 
 public class WeightLogActivity extends Activity {
     
-	private DataManipulator dh; 
+	private DataManipulator dataManipulator; 
 	
-    /** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
-    	this.dh = new DataManipulator(this);
+    	this.dataManipulator = new DataManipulator(this);
     }
     
     public void deleteButtonHandler(View view){
@@ -30,7 +29,7 @@ public class WeightLogActivity extends Activity {
         .setNeutralButton("Jaja, passt schon..", null)
         .show();
     	Toast.makeText(this, "Database deleted", Toast.LENGTH_SHORT).show();
-    	this.dh.deleteAll();
+    	this.dataManipulator.deleteAll();
     }
     
     public void graphButtonHandler(View view){
@@ -40,10 +39,9 @@ public class WeightLogActivity extends Activity {
 		List<String[]> rows = dh.selectLast();
 		
 
-    	Graph g = new Graph();
-    	NewGraph gn = new NewGraph();
-    	Intent i = g.getIntent(this, rows);
-    	startActivity(i);
+    	Graph graph = new Graph();
+    	Intent intent = graph.getIntent(this, rows);
+    	startActivity(intent);
     }
     
     
@@ -96,7 +94,7 @@ public class WeightLogActivity extends Activity {
     
     private void saveReading(Date now, float weight, float fat, float water, float muscle, int kcal, float bone) {
 //    	System.out.println("Saving Data : "+new java.sql.Date(now.getTime())+", "+ weight);
-    	this.dh.insertReading(new java.sql.Date(now.getTime()), weight, fat, water, muscle, kcal, bone);
+    	this.dataManipulator.insertReading(new java.sql.Date(now.getTime()), weight, fat, water, muscle, kcal, bone);
     }
     
     /**
