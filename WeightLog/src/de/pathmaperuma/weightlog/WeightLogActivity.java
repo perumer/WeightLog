@@ -1,8 +1,5 @@
 package de.pathmaperuma.weightlog;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.OutputStreamWriter;
 import java.util.Date;
 import java.util.List;
 
@@ -10,14 +7,13 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Environment;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
 public class WeightLogActivity extends Activity {
-    private UserFeedback feedback;
+    UserFeedback feedback;
 	private DataManipulator dataManipulator; 
 	
     @Override
@@ -52,31 +48,35 @@ public class WeightLogActivity extends Activity {
     
     public void saveButtonHandler(View view){
     	TextView lastSaved = (TextView) findViewById(R.id.lastSavedDate);
-		
-		EditText et = (EditText) findViewById(R.id.weightField);
-		float weight = Float.parseFloat(et.getText().toString());
+    	
+    	DataPoint dp = new DataPoint();
+
+    	EditText et = (EditText) findViewById(R.id.weightField);
+		dp.setWeight(et);
 
 		et = (EditText) findViewById(R.id.fatField);
-		float fat = Float.parseFloat(et.getText().toString());
+		dp.setFat(et);
+		
 		
 		et = (EditText) findViewById(R.id.waterField);
-		float water = Float.parseFloat(et.getText().toString());
+		dp.setWater(et);
 		
 		et = (EditText) findViewById(R.id.muscleField);
-		float muscle = Float.parseFloat(et.getText().toString());
+		dp.setMuscle(et);
 		
 		et = (EditText) findViewById(R.id.kcalField);
-		int kcal = Integer.parseInt(et.getText().toString());
+		dp.setKcal(et);
 		
 		et = (EditText) findViewById(R.id.boneField);
-		float bone = Float.parseFloat(et.getText().toString());
+		dp.setBone(et);
 		
 		Date now = new Date();
+		dp.setDate(now.getTime());
 		
-//		DateTime now = new DateTime();
 		
-		lastSaved.setText("Last saved: "+getNiceDateFromUnixTime(now.getTime()));
-		saveReading(now, weight, fat, water, muscle, kcal, bone);
+		lastSaved.setText("Last saved: "+dp.getNiceDateFromUnixTime());
+		
+		dataManipulator.insertReading(dp);
 		return;
     }
     
@@ -96,6 +96,16 @@ public class WeightLogActivity extends Activity {
 //    	}
     }
 
+    
+    public void importButtonHandler(View view){
+    	WeightDataIO io = new WeightDataIO();
+    	List<DataPoint> dps = io.readImportData(feedback);
+//    	dataManipulator.deleteAll();
+    	for (DataPoint dp : dps){
+    		dataManipulator.insertReading(dp);
+    	}
+    }
+    
     public void exportButtonHandler(View view){
     	DataManipulator dh = new DataManipulator(this);
     	List<String[]> rows = dh.selectAll();
@@ -107,13 +117,8 @@ public class WeightLogActivity extends Activity {
     		}
     		exportData += "\n";
     	}
-    	WeightDataIo io = new WeightDataIo();
-    	writeExportData(exportData, io);
-    }
-    
-    private void saveReading(Date now, float weight, float fat, float water, float muscle, int kcal, float bone) {
-//    	System.out.println("Saving Data : "+new java.sql.Date(now.getTime())+", "+ weight);
-    	this.dataManipulator.insertReading(new java.sql.Date(now.getTime()), weight, fat, water, muscle, kcal, bone);
+    	WeightDataIO io = new WeightDataIO();
+    	io.writeExportData(exportData, feedback);
     }
     
     /**
@@ -124,25 +129,5 @@ public class WeightLogActivity extends Activity {
 		Date readingDate = new Date(date);
 		String niceDate = (1900+readingDate.getYear())+"-"+readingDate.getMonth()+"-"+readingDate.getDate();
     	return niceDate;
-    }
-    
-    private void writeExportData(String data, WeightDataIo io){
-    	try{
-//    		File myFile = new File(this.getFilesDir()+"WeightLogExport.csv");
-    		File myFile = new File(Environment.getExternalStorageDirectory(),"WeightLogExport.csv");
-    		feedback.out("Path is"+myFile.getAbsolutePath());
-    		myFile.createNewFile();
-    		FileOutputStream fOut = new FileOutputStream(myFile);
-    		OutputStreamWriter writer = new OutputStreamWriter(fOut);
-    		writer.append(data);
-    		writer.close();
-    		fOut.close();
-    		feedback.out("Data successfully written");
-    	}
-    	catch (Exception e){
-    		Toast.makeText(getBaseContext(), e.getMessage(),
-					Toast.LENGTH_LONG).show();
-    		
-    	}
     }
 }

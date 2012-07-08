@@ -11,7 +11,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.database.sqlite.SQLiteStatement;
 
 public class DataManipulator {
-	private static final int DATABASE_VERSION = 1;
+	private static final int DATABASE_VERSION = 2;
 	private static final String DATABASE_NAME = "weightdatabase.db";
 	private static final String TABLE_NAME = "weighttable";
 	private final Context context;
@@ -45,15 +45,14 @@ public class DataManipulator {
 		return this.insertStmt.executeInsert();
 	}
 
-	public long insertReading(Date date, Float weight, Float fat, Float water,
-			Float muscle, Integer kcal, Float bone) {
-		this.insertStmt.bindString(1, Long.valueOf(date.getTime()).toString());
-		this.insertStmt.bindString(2, weight.toString());
-		this.insertStmt.bindString(3, fat.toString());
-		this.insertStmt.bindString(4, water.toString());
-		this.insertStmt.bindString(5, muscle.toString());
-		this.insertStmt.bindString(6, kcal.toString());
-		this.insertStmt.bindString(7, bone.toString());
+	public long insertReading(DataPoint dp) {
+		this.insertStmt.bindString(1, dp.getUnixTimeString());
+		this.insertStmt.bindString(2, dp.getWeightString());
+		this.insertStmt.bindString(3, dp.getFatString());
+		this.insertStmt.bindString(4, dp.getWaterString());
+		this.insertStmt.bindString(5, dp.getMuscleString());
+		this.insertStmt.bindString(6, dp.getKcalString());
+		this.insertStmt.bindString(7, dp.getBoneString());
 		return this.insertStmt.executeInsert();
 	}
 

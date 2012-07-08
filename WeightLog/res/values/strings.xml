@@ -9,5 +9,6 @@
     <string name="test">test</string>
     <string name="graph">Graph anzeigen</string>
     <string name="export">export DB to file</string>
-
+    <string name="importData">import data from file</string>
+    
 </resources>
