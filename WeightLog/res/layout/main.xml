@@ -1,36 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
-        xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/scrollView1"
     android:layout_width="match_parent"
     android:layout_height="wrap_content" >
 
-    <LinearLayout
-        android:layout_width="fill_parent"
+    <RelativeLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical" >
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp" >
 
         <TextView
+            android:id="@+id/helloText"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:text="@string/hello" />
 
-        <Button
-            android:id="@+id/button1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:onClick="deleteButtonHandler"
-            android:text="Delete" />
-
         <LinearLayout
+            android:id="@+id/groupWeight"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/helloText" >
 
             <EditText
                 android:id="@+id/weightField"
-                style="@style/ValueInput.Decimal"
-				>
-
+                style="@style/ValueInput.Decimal" >
             </EditText>
 
             <TextView
@@ -40,61 +34,62 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/groupFat"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/groupWeight" >
 
             <EditText
                 android:id="@+id/fatField"
-                style="@style/ValueInput.Decimal"
-                 />
+                style="@style/ValueInput.Decimal" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="fat (%)" />
-
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/groupWater"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/groupFat" >
 
             <EditText
                 android:id="@+id/waterField"
-                style="@style/ValueInput.Decimal"
-                />
+                style="@style/ValueInput.Decimal" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="water (%)" />
-
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/groupMuscle"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/groupWater" >
 
             <EditText
                 android:id="@+id/muscleField"
-                style="@style/ValueInput.Decimal"
-                />
+                style="@style/ValueInput.Decimal" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="muscle (%)" />
-
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/groupKcal"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/groupMuscle" >
 
             <EditText
                 android:id="@+id/kcalField"
-                style="@style/ValueInput.Number"
-                />
+                style="@style/ValueInput.Number" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -103,8 +98,10 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/groupBone"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/groupKcal" >
 
             <EditText
                 android:id="@+id/boneField"
@@ -121,17 +118,17 @@
             android:id="@+id/lastSavedDate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@+id/groupBone"
             android:layout_gravity="center"
             android:editable="true" />
 
         <Button
-            android:id="@+id/button3"
+            android:id="@+id/save"
+            android:layout_below="@+id/lastSavedDate"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
+            android:layout_height="match_parent"
             android:onClick="saveButtonHandler"
             android:text="@string/save" />
-    </LinearLayout>
+    </RelativeLayout>
 
 </ScrollView>
-

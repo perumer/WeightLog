@@ -34,7 +34,29 @@ public class WeightLogActivity extends Activity {
         return true;
     }
     
-    public void deleteButtonHandler(View view){
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+    	if( item.getItemId() == R.id.showgraph){
+    		this.showGraph();
+    		return false;
+    	}if( item.getItemId() == R.id.showdatabasedump){
+    		showDatabase();
+    		return false;
+    	}if(item.getItemId() == R.id.importFromFile){
+    		handleImport();
+    		return false;
+    	}if(item.getItemId() == R.id.exportToFile){
+    		handleExport();
+    		return false;
+    	}if(item.getItemId() == R.id.delete){
+    		delete();
+    		return false;
+    	}
+    	
+    	return super.onOptionsItemSelected(item);
+    }
+    
+    private void delete(){
     	new AlertDialog.Builder(this).setTitle("Daten löschen") 
         .setMessage("Achtung: alle gespeicherten Daten werden gelöscht!")
         .setNeutralButton("Jaja, passt schon..", null)
@@ -43,26 +65,7 @@ public class WeightLogActivity extends Activity {
     	this.dataManipulator.deleteAll();
     }
     
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-    	if( item.getItemId() == R.id.showgraph){
-    		this.graphButtonHandler(null);
-    		return false;
-    	}if( item.getItemId() == R.id.showdatabasedump){
-    		showDatabaseHandler();
-    		return false;
-    	}if(item.getItemId() == R.id.importFromFile){
-    		handleImport();
-    		return false;
-    	}if(item.getItemId() == R.id.exportToFile){
-    		handleExport();
-    		return false;
-    	}
-    	
-    	return super.onOptionsItemSelected(item);
-    }
-    
-    public void graphButtonHandler(View view){
+    private void showGraph(){
     	Toast.makeText(this, "generating chart...", Toast.LENGTH_SHORT).show();
     	
 		DataManipulator dh = new DataManipulator(this);
@@ -110,7 +113,7 @@ public class WeightLogActivity extends Activity {
     }
     
     
-    private void showDatabaseHandler(){
+    private void showDatabase(){
     	startActivity(new Intent(this, ShowTableActivity.class)  );
     }
 
