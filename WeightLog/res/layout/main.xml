@@ -26,112 +26,102 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content" >
 
+            <EditText
+                android:id="@+id/weightField"
+                style="@style/ValueInput"
+                android:ems="10"
+                android:inputType="numberDecimal" >
+
+                <requestFocus />
+            </EditText>
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="weight (kg)" />
-
-            <EditText
-                style="@style/ValueInput"
-                android:id="@+id/weightField"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:ems="10"
-                android:inputType="numberDecimal" >
-            </EditText>
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content" >
+
+            <EditText
+                android:id="@+id/fatField"
+                style="@style/ValueInput"
+                android:ems="10"
+                android:inputType="numberDecimal" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="fat (%)" />
 
-            <EditText
-                style="@style/ValueInput"
-                android:id="@+id/fatField"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:ems="10"
-                android:inputType="numberDecimal" />
-
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content" >
+
+            <EditText
+                android:id="@+id/waterField"
+                style="@style/ValueInput"
+                android:ems="10"
+                android:inputType="numberDecimal" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="water (%)" />
 
-            <EditText
-                style="@style/ValueInput"
-                android:id="@+id/waterField"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:ems="10"
-                android:inputType="numberDecimal" />
-
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content" >
+
+            <EditText
+                android:id="@+id/muscleField"
+                style="@style/ValueInput"
+                android:ems="10"
+                android:inputType="numberDecimal" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="muscle (%)" />
 
-            <EditText
-                style="@style/ValueInput"
-                android:id="@+id/muscleField"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:ems="10"
-                android:inputType="numberDecimal" />
-
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content" >
+
+            <EditText
+                android:id="@+id/kcalField"
+                style="@style/ValueInput"
+                android:ems="10"
+                android:inputType="number" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="kcal" />
-
-            <EditText
-                style="@style/ValueInput"
-                android:id="@+id/kcalField"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:ems="10"
-                android:inputType="number" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content" >
 
+            <EditText
+                android:id="@+id/boneField"
+                style="@style/ValueInput"
+                android:ems="10"
+                android:inputType="numberDecimal" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="bone (kg)" />
-
-            <EditText
-                style="@style/ValueInput"
-                android:id="@+id/boneField"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:ems="10"
-                android:inputType="numberDecimal" />
         </LinearLayout>
 
         <TextView
