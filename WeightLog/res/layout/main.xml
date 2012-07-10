@@ -28,11 +28,9 @@
 
             <EditText
                 android:id="@+id/weightField"
-                style="@style/ValueInput"
-                android:ems="10"
-                android:inputType="numberDecimal" >
+                style="@style/ValueInput.Decimal"
+				>
 
-                <requestFocus />
             </EditText>
 
             <TextView
@@ -47,9 +45,8 @@
 
             <EditText
                 android:id="@+id/fatField"
-                style="@style/ValueInput"
-                android:ems="10"
-                android:inputType="numberDecimal" />
+                style="@style/ValueInput.Decimal"
+                 />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -64,9 +61,8 @@
 
             <EditText
                 android:id="@+id/waterField"
-                style="@style/ValueInput"
-                android:ems="10"
-                android:inputType="numberDecimal" />
+                style="@style/ValueInput.Decimal"
+                />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -81,9 +77,8 @@
 
             <EditText
                 android:id="@+id/muscleField"
-                style="@style/ValueInput"
-                android:ems="10"
-                android:inputType="numberDecimal" />
+                style="@style/ValueInput.Decimal"
+                />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -98,9 +93,8 @@
 
             <EditText
                 android:id="@+id/kcalField"
-                style="@style/ValueInput"
-                android:ems="10"
-                android:inputType="number" />
+                style="@style/ValueInput.Number"
+                />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -114,8 +108,7 @@
 
             <EditText
                 android:id="@+id/boneField"
-                style="@style/ValueInput"
-                android:ems="10"
+                style="@style/ValueInput.Decimal"
                 android:inputType="numberDecimal" />
 
             <TextView

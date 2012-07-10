@@ -4,6 +4,11 @@
         <item name="android:layout_width">50dip</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:gravity">right</item>
+        <item name="android:ems">10</item>
+        <item name="android:layout_marginBottom">0px</item>
+        <item name="android:layout_marginLeft">10px</item>
+        <item name="android:layout_marginRight">20px</item>
+        <item name="android:layout_marginTop">0px</item>
     </style>
 </resources>
 
