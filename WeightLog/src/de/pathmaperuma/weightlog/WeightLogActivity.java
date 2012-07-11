@@ -7,6 +7,9 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -24,7 +27,36 @@ public class WeightLogActivity extends Activity {
     	this.dataManipulator = new DataManipulator(this);
     }
     
-    public void deleteButtonHandler(View view){
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_data_input, menu);
+        return true;
+    }
+    
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+    	if( item.getItemId() == R.id.showgraph){
+    		this.showGraph();
+    		return false;
+    	}if( item.getItemId() == R.id.showdatabasedump){
+    		showDatabase();
+    		return false;
+    	}if(item.getItemId() == R.id.importFromFile){
+    		handleImport();
+    		return false;
+    	}if(item.getItemId() == R.id.exportToFile){
+    		handleExport();
+    		return false;
+    	}if(item.getItemId() == R.id.delete){
+    		delete();
+    		return false;
+    	}
+    	
+    	return super.onOptionsItemSelected(item);
+    }
+    
+    private void delete(){
     	new AlertDialog.Builder(this).setTitle("Daten löschen") 
         .setMessage("Achtung: alle gespeicherten Daten werden gelöscht!")
         .setNeutralButton("Jaja, passt schon..", null)
@@ -33,7 +65,7 @@ public class WeightLogActivity extends Activity {
     	this.dataManipulator.deleteAll();
     }
     
-    public void graphButtonHandler(View view){
+    private void showGraph(){
     	Toast.makeText(this, "generating chart...", Toast.LENGTH_SHORT).show();
     	
 		DataManipulator dh = new DataManipulator(this);
@@ -81,32 +113,20 @@ public class WeightLogActivity extends Activity {
     }
     
     
-    public void loadButtonHandler(View view){
-    	
-
+    private void showDatabase(){
     	startActivity(new Intent(this, ShowTableActivity.class)  );
-//    	Toast.makeText(this, "Loading Values...", Toast.LENGTH_SHORT).show();
-//    	TextView content = (TextView) findViewById(R.id.dbContent);
-//    	content.setText("DB Content: \n--------------------------\n");
-//		content.append("ID, Date, kg, % fat, % water, muscle, kcal, bone(kg)"+  "\n");
-//    	List<String[]> rows = this.dh.selectLast();
-//    	for(String[] s : rows){
-//    		String niceDate = getNiceDateFromUnixTime(Long.parseLong(s[1]));
-//    		content.append(s[0]+ " | " + niceDate+ " | " + s[2]+" | "+s[3]+" | "+ s[4]+" | "+ s[5]+" | "+ s[6]+" | "+ s[7]+"\n");
-//    	}
     }
 
     
-    public void importButtonHandler(View view){
+    private void handleImport(){
     	WeightDataIO io = new WeightDataIO();
     	List<DataPoint> dps = io.readImportData(feedback);
-//    	dataManipulator.deleteAll();
     	for (DataPoint dp : dps){
     		dataManipulator.insertReading(dp);
     	}
     }
     
-    public void exportButtonHandler(View view){
+    private void handleExport(){
     	DataManipulator dh = new DataManipulator(this);
     	List<String[]> rows = dh.selectAll();
     	String exportData = new String();
