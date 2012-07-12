@@ -120,10 +120,12 @@ public class WeightLogActivity extends Activity {
     
     private void handleImport(){
     	WeightDataIO io = new WeightDataIO();
+    	feedback.out("reading import file..");
     	List<DataPoint> dps = io.readImportData(feedback);
     	for (DataPoint dp : dps){
     		dataManipulator.insertReading(dp);
     	}
+    	feedback.out(dps.size()+" datasets imported");
     }
     
     private void handleExport(){
