@@ -25,27 +25,43 @@ public class DataManipulator {
 
 	public DataManipulator(Context context) {
 		this.context = context;
+//		OpenHelper openHelper = new OpenHelper(this.context);
+//		this.db = openHelper.getWritableDatabase();
+//		this.insertStmt = db.compileStatement(INSERT);
+//		this.db.close();
+	}
+	
+	private void openWritableDB(){
 		OpenHelper openHelper = new OpenHelper(this.context);
 		this.db = openHelper.getWritableDatabase();
-		this.insertStmt = db.compileStatement(INSERT);
+	}
+	
+	private void openReadableDB(){
+		OpenHelper openHelper = new OpenHelper(this.context);
+		this.db = openHelper.getReadableDatabase();
+	}
+	
+	private void closeDB(){
+		if (this.db.isOpen()){
+			this.db.close();
+		}
 	}
 
-	public long insert_old(String name, String number, String skypeId,
-			String address) {
-		this.insertStmt.bindString(1, name);
-		this.insertStmt.bindString(2, number);
-		this.insertStmt.bindString(3, skypeId);
-		this.insertStmt.bindString(4, address);
-		return this.insertStmt.executeInsert();
-	}
-
+	
+	@Deprecated
 	public long insert(Date date, float weight) {
+		openWritableDB();
+		this.insertStmt = db.compileStatement(INSERT);
 		this.insertStmt.bindString(1, Long.valueOf(date.getTime()).toString());
 		this.insertStmt.bindString(2, Float.valueOf(weight).toString());
-		return this.insertStmt.executeInsert();
+		long result = this.insertStmt.executeInsert();
+		closeDB();
+		return result;
 	}
 
 	public long insertReading(DataPoint dp) {
+		openWritableDB();
+		this.insertStmt = db.compileStatement(INSERT);
 		this.insertStmt.bindString(1, dp.getUnixTimeString());
 		this.insertStmt.bindString(2, dp.getWeightString());
 		this.insertStmt.bindString(3, dp.getFatString());
@@ -53,15 +69,22 @@ public class DataManipulator {
 		this.insertStmt.bindString(5, dp.getMuscleString());
 		this.insertStmt.bindString(6, dp.getKcalString());
 		this.insertStmt.bindString(7, dp.getBoneString());
-		return this.insertStmt.executeInsert();
+		System.out.println("Query ready : "+insertStmt.toString());
+		long result = this.insertStmt.executeInsert();
+		System.out.println("Insert resulted in : "+result);
+		closeDB();
+		return result;
 	}
 
 	public void deleteAll() {
+		openWritableDB();
 		db.delete(TABLE_NAME, null, null);
+		closeDB();
 	}
 
 	public List<String[]> selectLast() {
 		List<String[]> list = new ArrayList<String[]>();
+		openReadableDB();
 		Cursor cursor = db.query(TABLE_NAME, null, null, null, null, null,
 				"date desc");
 		if (cursor.moveToFirst()) {
@@ -78,11 +101,13 @@ public class DataManipulator {
 			cursor.close();
 		}
 		cursor.close();
+		closeDB();
 		return list;
 	}
 
 	public List<String[]> selectAll() {
 		List<String[]> list = new ArrayList<String[]>();
+		openReadableDB();
 		Cursor cursor = db.query(TABLE_NAME, null, null, null, null, null,
 				"date asc");
 		if (cursor.moveToFirst()) {
@@ -99,11 +124,14 @@ public class DataManipulator {
 			cursor.close();
 		}
 		cursor.close();
+		closeDB();
 		return list;
 	}
 
 	public void delete(int rowId) {
+		openWritableDB();
 		db.delete(TABLE_NAME, null, null);
+		closeDB();
 	}
 
 	private static class OpenHelper extends SQLiteOpenHelper {
