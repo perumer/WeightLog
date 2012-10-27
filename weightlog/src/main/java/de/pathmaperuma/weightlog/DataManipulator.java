@@ -1,21 +1,20 @@
 package de.pathmaperuma.weightlog;
 
-import java.sql.Date;
-import java.util.ArrayList;
-import java.util.List;
-
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.database.sqlite.SQLiteStatement;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class DataManipulator {
 	private static final int DATABASE_VERSION = 2;
 	private static final String DATABASE_NAME = "weightdatabase.db";
 	private static final String TABLE_NAME = "weighttable";
 	private final Context context;
-	private SQLiteDatabase db;
+	private SQLiteDatabase database;
 
 	private SQLiteStatement insertStmt;
 
@@ -25,43 +24,27 @@ public class DataManipulator {
 
 	public DataManipulator(Context context) {
 		this.context = context;
-//		OpenHelper openHelper = new OpenHelper(this.context);
-//		this.db = openHelper.getWritableDatabase();
-//		this.insertStmt = db.compileStatement(INSERT);
-//		this.db.close();
 	}
 	
 	private void openWritableDB(){
 		OpenHelper openHelper = new OpenHelper(this.context);
-		this.db = openHelper.getWritableDatabase();
+		this.database = openHelper.getWritableDatabase();
 	}
 	
 	private void openReadableDB(){
 		OpenHelper openHelper = new OpenHelper(this.context);
-		this.db = openHelper.getReadableDatabase();
+		this.database = openHelper.getReadableDatabase();
 	}
 	
 	private void closeDB(){
-		if (this.db.isOpen()){
-			this.db.close();
+		if (this.database.isOpen()){
+			this.database.close();
 		}
-	}
-
-	
-	@Deprecated
-	public long insert(Date date, float weight) {
-		openWritableDB();
-		this.insertStmt = db.compileStatement(INSERT);
-		this.insertStmt.bindString(1, Long.valueOf(date.getTime()).toString());
-		this.insertStmt.bindString(2, Float.valueOf(weight).toString());
-		long result = this.insertStmt.executeInsert();
-		closeDB();
-		return result;
 	}
 
 	public long insertReading(DataPoint dp) {
 		openWritableDB();
-		this.insertStmt = db.compileStatement(INSERT);
+		this.insertStmt = database.compileStatement(INSERT);
 		this.insertStmt.bindString(1, dp.getUnixTimeString());
 		this.insertStmt.bindString(2, dp.getWeightString());
 		this.insertStmt.bindString(3, dp.getFatString());
@@ -78,14 +61,14 @@ public class DataManipulator {
 
 	public void deleteAll() {
 		openWritableDB();
-		db.delete(TABLE_NAME, null, null);
+		database.delete(TABLE_NAME, null, null);
 		closeDB();
 	}
 
 	public List<String[]> selectLast() {
 		List<String[]> list = new ArrayList<String[]>();
 		openReadableDB();
-		Cursor cursor = db.query(TABLE_NAME, null, null, null, null, null,
+		Cursor cursor = database.query(TABLE_NAME, null, null, null, null, null,
 				"date desc");
 		if (cursor.moveToFirst()) {
 			do {
@@ -97,7 +80,7 @@ public class DataManipulator {
 				list.add(row);
 			} while (cursor.moveToNext());
 		}
-		if (cursor != null && !cursor.isClosed()) {
+		if (!cursor.isClosed()) {
 			cursor.close();
 		}
 		cursor.close();
@@ -108,7 +91,7 @@ public class DataManipulator {
 	public List<String[]> selectAll() {
 		List<String[]> list = new ArrayList<String[]>();
 		openReadableDB();
-		Cursor cursor = db.query(TABLE_NAME, null, null, null, null, null,
+		Cursor cursor = database.query(TABLE_NAME, null, null, null, null, null,
 				"date asc");
 		if (cursor.moveToFirst()) {
 			do {
@@ -120,18 +103,12 @@ public class DataManipulator {
 				list.add(row);
 			} while (cursor.moveToNext());
 		}
-		if (cursor != null && !cursor.isClosed()) {
+		if (!cursor.isClosed()) {
 			cursor.close();
 		}
 		cursor.close();
 		closeDB();
 		return list;
-	}
-
-	public void delete(int rowId) {
-		openWritableDB();
-		db.delete(TABLE_NAME, null, null);
-		closeDB();
 	}
 
 	private static class OpenHelper extends SQLiteOpenHelper {
