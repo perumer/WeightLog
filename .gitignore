@@ -1,0 +1,7 @@
+target/
+*.iml
+*.ipr
+*.iws
+out/
+.idea/
+gen-external-apklibs/
