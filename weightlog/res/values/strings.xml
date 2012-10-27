@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
-    <string name="hello">Hello World, WeightLogActivity!</string>
+    <string name="hello">Please enter your measurements</string>
     <string name="app_name">WeightLog</string>
     <string name="randomButton">Press for new Random Number</string>
     <string name="show_database">Show Database Entries</string>
@@ -11,5 +10,4 @@
     <string name="export">export DB to file</string>
     <string name="importData">import data from file</string>
     <string name="delete">delete</string>
-    
 </resources>
