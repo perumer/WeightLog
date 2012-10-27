@@ -22,18 +22,36 @@ public class DataManipulator {
 			+ TABLE_NAME
 			+ " (date, weight, fat, water, muscle, kcal, bone) values (?,?,?,?,?,?,?)";
 
+
+    public void read(DataManipulation manipulation){
+        SQLiteDatabase database = openReadableDB();
+        manipulation.manipulateIn(database);
+        database.close();
+    }
+
+    public void write(DataManipulation manipulation){
+        SQLiteDatabase database = openWritableDB();
+        manipulation.manipulateIn(database);
+        database.close();
+    }
+
 	public DataManipulator(Context context) {
 		this.context = context;
 	}
 	
-	private void openWritableDB(){
+	private SQLiteDatabase openWritableDB(){
 		OpenHelper openHelper = new OpenHelper(this.context);
-		this.database = openHelper.getWritableDatabase();
+        SQLiteDatabase writableDatabase = openHelper.getWritableDatabase();
+        this.database = writableDatabase;
+        return writableDatabase;
 	}
 	
-	private void openReadableDB(){
+	private SQLiteDatabase openReadableDB(){
 		OpenHelper openHelper = new OpenHelper(this.context);
-		this.database = openHelper.getReadableDatabase();
+        SQLiteDatabase readableDatabase = openHelper.getReadableDatabase();
+        this.database = readableDatabase;
+        return readableDatabase;
+
 	}
 	
 	private void closeDB(){
