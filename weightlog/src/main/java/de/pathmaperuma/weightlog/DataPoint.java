@@ -6,14 +6,14 @@ import java.util.Date;
 
 public class DataPoint {
 
-    private float weight;
-    private float fat;
-    private float water;
-    private float muscle;
-    private int kcal;
-    private float bone;
-    private Date date;
-    private DateTime timeTaken;
+    private final float weight;
+    private final float fat;
+    private final float water;
+    private final float muscle;
+    private final int kcal;
+    private final float bone;
+    private final Date date;
+    private final DateTime timeTaken;
 
 
     public String getWeightString() {
@@ -39,12 +39,13 @@ public class DataPoint {
     public DataPoint(String line) {
         String[] fields = line.split(";");
         date = new Date(Long.valueOf(fields[1]));
-        setWeight(Float.valueOf(fields[2]));
+        this.weight = Float.valueOf(fields[2]);
         fat = Float.valueOf(fields[3]);
         water = Float.valueOf(fields[4]);
         muscle = Float.valueOf(fields[5]);
         kcal = Integer.valueOf(fields[6]);
         bone = Float.valueOf(fields[7]);
+        this.timeTaken = new DateTime(date);
     }
 
     public DataPoint(float weight, float fat, float water, float muscle, int kcal, float bone, Date date) {
@@ -56,10 +57,6 @@ public class DataPoint {
         this.bone = bone;
         this.date = date;
         this.timeTaken = new DateTime(date);
-    }
-
-    public void setWeight(float weight) {
-        this.weight = weight;
     }
 
     public String getNiceDateFromUnixTime() {
