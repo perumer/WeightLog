@@ -1,7 +1,8 @@
-package de.pathmaperuma.weightlog;
+package de.pathmaperuma.weightlog.sql;
 
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteStatement;
+import de.pathmaperuma.weightlog.DataPoint;
 
 public class WriteDataPoint implements DataManipulation {
     private static final String INSERT = "insert into "

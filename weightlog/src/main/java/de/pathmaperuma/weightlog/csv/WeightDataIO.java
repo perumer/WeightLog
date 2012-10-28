@@ -1,4 +1,4 @@
-package de.pathmaperuma.weightlog;
+package de.pathmaperuma.weightlog.csv;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -10,6 +10,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.os.Environment;
+import de.pathmaperuma.weightlog.DataPoint;
+import de.pathmaperuma.weightlog.UserFeedback;
 
 public class WeightDataIO {
 

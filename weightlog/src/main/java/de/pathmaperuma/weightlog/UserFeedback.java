@@ -12,11 +12,11 @@ public class UserFeedback {
 
 	}
 
-	void out(String s){
+	public void out(String s){
 		Toast.makeText(context, s, Toast.LENGTH_SHORT).show();
 	}
 
-	void outLong(String s){
+	public void outLong(String s){
 		Toast.makeText(context, s, Toast.LENGTH_LONG).show();
 	}
 }

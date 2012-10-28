@@ -14,6 +14,8 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+import de.pathmaperuma.weightlog.csv.WeightDataIO;
+import de.pathmaperuma.weightlog.sql.DataManipulator;
 import org.joda.time.DateTime;
 
 public class WeightLogActivity extends Activity {

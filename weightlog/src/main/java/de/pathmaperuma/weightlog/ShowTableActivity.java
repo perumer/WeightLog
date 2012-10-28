@@ -6,6 +6,7 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.widget.TextView;
 import android.widget.Toast;
+import de.pathmaperuma.weightlog.sql.DataManipulator;
 
 public class ShowTableActivity extends Activity {
 	/** Called when the activity is first created. */

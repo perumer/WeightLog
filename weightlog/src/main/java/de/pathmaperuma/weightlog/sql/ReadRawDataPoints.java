@@ -1,4 +1,4 @@
-package de.pathmaperuma.weightlog;
+package de.pathmaperuma.weightlog.sql;
 
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;

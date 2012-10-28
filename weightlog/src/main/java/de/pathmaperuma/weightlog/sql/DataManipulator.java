@@ -1,8 +1,9 @@
-package de.pathmaperuma.weightlog;
+package de.pathmaperuma.weightlog.sql;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import de.pathmaperuma.weightlog.DataPoint;
 
 import java.util.List;
 
