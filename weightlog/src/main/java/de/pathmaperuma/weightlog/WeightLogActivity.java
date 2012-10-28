@@ -1,6 +1,5 @@
 package de.pathmaperuma.weightlog;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -15,14 +14,17 @@ import android.widget.Toast;
 import de.pathmaperuma.weightlog.csv.WeightDataIO;
 import de.pathmaperuma.weightlog.sql.DataManipulator;
 import org.joda.time.DateTime;
+import roboguice.activity.RoboActivity;
+import roboguice.inject.InjectView;
 
 import java.util.Date;
 import java.util.List;
 
-public class WeightLogActivity extends Activity {
+public class WeightLogActivity extends RoboActivity {
     private UserFeedback feedback;
     private DataManipulator dataManipulator;
     private final DataPointModel model = new DataPointModel();
+    @InjectView(R.id.save) Button save;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -68,7 +70,6 @@ public class WeightLogActivity extends Activity {
                 model.setKilokalorien(value);
             }
         });
-        Button save = (Button) findViewById(R.id.save);
         save.setOnClickListener(new StoreDataPoint(model, dataManipulator));
     }
 
