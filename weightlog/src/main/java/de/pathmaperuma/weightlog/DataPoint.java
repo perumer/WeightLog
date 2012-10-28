@@ -6,13 +6,13 @@ import android.widget.EditText;
 
 public class DataPoint {
 
-	float weight;
-	float fat;
-	float water;
-	float muscle;
-	int kcal;
-	float bone;
-	Date date;
+	private float weight;
+	private float fat;
+	private float water;
+	private float muscle;
+	private int kcal;
+	private float bone;
+	private Date date;
 	
 	
 	public String getWeightString(){
@@ -31,19 +31,10 @@ public class DataPoint {
 		return Float.valueOf(muscle).toString();
 	}
 
-	public String getWeightBone(){
-		return Float.valueOf(bone).toString();
-	}
-	
-	public String getKcalString(){
+    public String getKcalString(){
 		return Integer.valueOf(kcal).toString();
 	}
 
-
-	/**
-	 * generates a DataPoint by parsing a String from an import-file
-	 * @param s
-	 */
 	public DataPoint(String line){
 		String[] fields = line.split(";");
 		date	= new Date(Long.valueOf(fields[1]));
@@ -96,13 +87,8 @@ public class DataPoint {
 		date = new Date(dateLong);
 	}
 	
-	   /**
-     * @param date (Unix Timestamp)
-     * @return 2012-5-27
-     */
-    String getNiceDateFromUnixTime(){
-		String niceDate = (1900+date.getYear())+"-"+date.getMonth()+"-"+date.getDate();
-    	return niceDate;
+    public String getNiceDateFromUnixTime(){
+        return (1900+date.getYear())+"-"+date.getMonth()+"-"+date.getDate();
     }
     
     public long getUnixTime(){
