@@ -28,15 +28,61 @@ public class WeightLogActivity extends Activity {
         setContentView(R.layout.main);
         this.dataManipulator = new DataManipulator(this);
 
-        EditText et = (EditText) findViewById(R.id.weightField);
-        et.addTextChangedListener(new FloatTextWatcher(new Closure<Float>() {
+        propagateFloatPropertyToModel(R.id.weightField, new Closure<Float>() {
 
             @Override
             public void execute(Float value) {
                 model.setWeight(value);
             }
-        }));
+        });
+        propagateFloatPropertyToModel(R.id.fatField, new Closure<Float>() {
+            @Override
+            public void execute(Float value) {
+                model.setPercentBodyFat(value);
+            }
+        });
+        propagateFloatPropertyToModel(R.id.waterField, new Closure<Float>() {
+            @Override
+            public void execute(Float value) {              model.setPercentBodyWater(value);
+            }
+        });
+        propagateFloatPropertyToModel(R.id.muscleField, new Closure<Float>() {
+            @Override
+            public void execute(Float value) {                model.setPercentBodyMuscle(value);
+            }
+        });
+        propagateFloatPropertyToModel(R.id.boneField, new Closure<Float>() {
+            @Override
+            public void execute(Float value) {
+                model.setBoneWeight(value);
+            }
+        });
+        propagateIntegerPropertyToModel(R.id.kcalField, new Closure<Integer>() {
+            @Override
+            public void execute(Integer value) {
+                model.setKilokalorien(value);
+            }
+        });
+    }
 
+    private void propagateFloatPropertyToModel(int viewId, Closure<Float> afterTextChange) {
+        EditText et = (EditText) findViewById(viewId);
+        et.addTextChangedListener(new FloatTextWatcher(afterTextChange));
+    }
+
+    private void propagateIntegerPropertyToModel(int viewId, Closure<Integer> afterTextChange) {
+        EditText et = (EditText) findViewById(viewId);
+        et.addTextChangedListener(new IntegerTextWatcher(afterTextChange));
+    }
+
+    public void saveButtonHandler(View view) {
+        model.setTimeTaken(new DateTime());
+
+        DataPoint dataPoint = model.createDataPoint();
+        dataManipulator.insertReading(dataPoint);
+
+        TextView lastSaved = (TextView) findViewById(R.id.lastSavedDate);
+        lastSaved.setText("Last saved: " + dataPoint.getNiceDateFromUnixTime());
     }
 
     @Override
@@ -81,6 +127,7 @@ public class WeightLogActivity extends Activity {
         this.dataManipulator.deleteAll();
     }
 
+
     private void showGraph() {
         Toast.makeText(this, "generating chart...", Toast.LENGTH_SHORT).show();
         List<String[]> rows = dataManipulator.selectLast();
@@ -89,38 +136,9 @@ public class WeightLogActivity extends Activity {
         startActivity(intent);
     }
 
-
-    public void saveButtonHandler(View view) {
-        model.setPercentBodyFat(retrieveFloat(R.id.fatField));
-        model.setPercentBodyWater(retrieveFloat(R.id.waterField));
-        model.setPercentBodyMuscle(retrieveFloat(R.id.muscleField));
-        model.setKilokalorien(retrieveInteger(R.id.kcalField));
-        model.setBoneWeight(retrieveFloat(R.id.boneField));
-        model.setTimeTaken(new DateTime());
-
-        DataPoint dataPoint = model.createDataPoint();
-        dataManipulator.insertReading(dataPoint);
-
-        TextView lastSaved = (TextView) findViewById(R.id.lastSavedDate);
-        lastSaved.setText("Last saved: " + dataPoint.getNiceDateFromUnixTime());
-    }
-
-    private int retrieveInteger(int viewId) {
-        EditText et;
-        et = (EditText) findViewById(viewId);
-        return Integer.parseInt(et.getText().toString());
-    }
-
-    private float retrieveFloat(int viewId) {
-        EditText et = (EditText) findViewById(viewId);
-        return Float.parseFloat(et.getText().toString());
-    }
-
-
     private void showDatabase() {
         startActivity(new Intent(this, ShowTableActivity.class));
     }
-
 
     private void handleImport() {
         WeightDataIO io = new WeightDataIO();
