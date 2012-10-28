@@ -83,31 +83,29 @@ public class WeightLogActivity extends Activity {
         TextView lastSaved = (TextView) findViewById(R.id.lastSavedDate);
 
         DataPoint dataPoint = new DataPoint();
-
-        EditText et = (EditText) findViewById(R.id.weightField);
-
-        dataPoint.setWeight(Float.parseFloat(et.getText().toString()));
-
-        et = (EditText) findViewById(R.id.fatField);
-        dataPoint.setBodyFatInPercent(Float.parseFloat(et.getText().toString()));
-
-        et = (EditText) findViewById(R.id.waterField);
-        dataPoint.setBodyWaterInPercent(Float.parseFloat(et.getText().toString()));
-
-        et = (EditText) findViewById(R.id.muscleField);
-        dataPoint.setBoyMuscleInPercent(Float.parseFloat(et.getText().toString()));
-
-        et = (EditText) findViewById(R.id.kcalField);
-        dataPoint.setKilokalorien(Integer.parseInt(et.getText().toString()));
-
-        et = (EditText) findViewById(R.id.boneField);
-        dataPoint.setBoneWeightInKg(Float.parseFloat(et.getText().toString()));
+        dataPoint.setWeight(retrieveFloat(R.id.weightField));
+        dataPoint.setBodyFatInPercent(retrieveFloat(R.id.fatField));
+        dataPoint.setBodyWaterInPercent(retrieveFloat(R.id.waterField));
+        dataPoint.setBoyMuscleInPercent(retrieveFloat(R.id.muscleField));
+        dataPoint.setKilokalorien(retrieveInteger(R.id.kcalField));
+        dataPoint.setBoneWeightInKg(retrieveFloat(R.id.boneField));
 
         dataPoint.setDate(new DateTime());
 
         lastSaved.setText("Last saved: " + dataPoint.getNiceDateFromUnixTime());
 
         dataManipulator.insertReading(dataPoint);
+    }
+
+    private int retrieveInteger(int viewId) {
+        EditText et;
+        et = (EditText) findViewById(viewId);
+        return Integer.parseInt(et.getText().toString());
+    }
+
+    private float retrieveFloat(int viewId) {
+        EditText et = (EditText) findViewById(viewId);
+        return Float.parseFloat(et.getText().toString());
     }
 
 
