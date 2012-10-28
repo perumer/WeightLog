@@ -19,6 +19,7 @@ import org.joda.time.DateTime;
 public class WeightLogActivity extends Activity {
     private UserFeedback feedback;
     private DataManipulator dataManipulator;
+    private final DataPointModel model = new DataPointModel();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -80,16 +81,15 @@ public class WeightLogActivity extends Activity {
 
 
     public void saveButtonHandler(View view) {
+        model.setWeight(retrieveFloat(R.id.weightField));
+        model.setPercentBodyFat(retrieveFloat(R.id.fatField));
+        model.setPercentBodyWater(retrieveFloat(R.id.waterField));
+        model.setPercentBodyMuscle(retrieveFloat(R.id.muscleField));
+        model.setKilokalorien(retrieveInteger(R.id.kcalField));
+        model.setBoneWeight(retrieveFloat(R.id.boneField));
+        model.setTimeTaken(new DateTime());
 
-        DataPoint dataPoint = new DataPoint();
-        dataPoint.setWeight(retrieveFloat(R.id.weightField));
-        dataPoint.setBodyFatInPercent(retrieveFloat(R.id.fatField));
-        dataPoint.setBodyWaterInPercent(retrieveFloat(R.id.waterField));
-        dataPoint.setBoyMuscleInPercent(retrieveFloat(R.id.muscleField));
-        dataPoint.setKilokalorien(retrieveInteger(R.id.kcalField));
-        dataPoint.setBoneWeightInKg(retrieveFloat(R.id.boneField));
-        dataPoint.setDate(new DateTime());
-
+        DataPoint dataPoint = model.createDataPoint();
         dataManipulator.insertReading(dataPoint);
 
         TextView lastSaved = (TextView) findViewById(R.id.lastSavedDate);
