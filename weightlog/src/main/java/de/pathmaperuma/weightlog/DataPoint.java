@@ -1,9 +1,8 @@
 package de.pathmaperuma.weightlog;
 
-import java.util.Date;
-
-import android.widget.EditText;
 import org.joda.time.DateTime;
+
+import java.util.Date;
 
 public class DataPoint {
 
@@ -40,7 +39,7 @@ public class DataPoint {
     public DataPoint(String line) {
         String[] fields = line.split(";");
         date = new Date(Long.valueOf(fields[1]));
-        weight = Float.valueOf(fields[2]);
+        setWeight(Float.valueOf(fields[2]));
         fat = Float.valueOf(fields[3]);
         water = Float.valueOf(fields[4]);
         muscle = Float.valueOf(fields[5]);
@@ -63,32 +62,32 @@ public class DataPoint {
         super();
     }
 
-    public void setWeight(EditText et) {
-        weight = Float.parseFloat(et.getText().toString());
+    public void setWeight(float weight) {
+        this.weight = weight;
     }
 
-    public void setFat(EditText et) {
-        fat = Float.parseFloat(et.getText().toString());
+    public void setBodyFatInPercent(float bodyFatPercentage) {
+        fat = bodyFatPercentage;
     }
 
-    public void setWater(EditText et) {
-        water = Float.parseFloat(et.getText().toString());
+    public void setBodyWaterInPercent(float setBodyWaterInPercent) {
+        water = setBodyWaterInPercent;
     }
 
-    public void setMuscle(EditText et) {
-        muscle = Float.parseFloat(et.getText().toString());
+    public void setBoyMuscleInPercent(float muscleInPercent) {
+        muscle = muscleInPercent;
     }
 
-    public void setBone(EditText et) {
-        bone = Float.parseFloat(et.getText().toString());
+    public void setBoneWeightInKg(float boneWeight) {
+        bone = boneWeight;
     }
 
-    public void setKcal(EditText et) {
-        kcal = Integer.parseInt(et.getText().toString());
+    public void setKilokalorien(int kiloCalories) {
+        kcal = kiloCalories;
     }
 
-    public void setDate(long dateLong) {
-        date = new Date(dateLong);
+    public void setDate(DateTime timeTaken) {
+        date = timeTaken.toDate();
     }
 
     public String getNiceDateFromUnixTime() {

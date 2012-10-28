@@ -14,6 +14,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+import org.joda.time.DateTime;
 
 public class WeightLogActivity extends Activity {
     private UserFeedback feedback;
@@ -81,34 +82,32 @@ public class WeightLogActivity extends Activity {
     public void saveButtonHandler(View view) {
         TextView lastSaved = (TextView) findViewById(R.id.lastSavedDate);
 
-        DataPoint dp = new DataPoint();
+        DataPoint dataPoint = new DataPoint();
 
         EditText et = (EditText) findViewById(R.id.weightField);
-        dp.setWeight(et);
+
+        dataPoint.setWeight(Float.parseFloat(et.getText().toString()));
 
         et = (EditText) findViewById(R.id.fatField);
-        dp.setFat(et);
-
+        dataPoint.setBodyFatInPercent(Float.parseFloat(et.getText().toString()));
 
         et = (EditText) findViewById(R.id.waterField);
-        dp.setWater(et);
+        dataPoint.setBodyWaterInPercent(Float.parseFloat(et.getText().toString()));
 
         et = (EditText) findViewById(R.id.muscleField);
-        dp.setMuscle(et);
+        dataPoint.setBoyMuscleInPercent(Float.parseFloat(et.getText().toString()));
 
         et = (EditText) findViewById(R.id.kcalField);
-        dp.setKcal(et);
+        dataPoint.setKilokalorien(Integer.parseInt(et.getText().toString()));
 
         et = (EditText) findViewById(R.id.boneField);
-        dp.setBone(et);
+        dataPoint.setBoneWeightInKg(Float.parseFloat(et.getText().toString()));
 
-        Date now = new Date();
-        dp.setDate(now.getTime());
+        dataPoint.setDate(new DateTime());
 
+        lastSaved.setText("Last saved: " + dataPoint.getNiceDateFromUnixTime());
 
-        lastSaved.setText("Last saved: " + dp.getNiceDateFromUnixTime());
-
-        dataManipulator.insertReading(dp);
+        dataManipulator.insertReading(dataPoint);
     }
 
 
