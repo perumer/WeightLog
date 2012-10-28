@@ -27,6 +27,16 @@ public class WeightLogActivity extends Activity {
         feedback = new UserFeedback(getApplicationContext());
         setContentView(R.layout.main);
         this.dataManipulator = new DataManipulator(this);
+
+        EditText et = (EditText) findViewById(R.id.weightField);
+        et.addTextChangedListener(new FloatTextWatcher(new Closure<Float>() {
+
+            @Override
+            public void execute(Float value) {
+                model.setWeight(value);
+            }
+        }));
+
     }
 
     @Override
@@ -81,7 +91,6 @@ public class WeightLogActivity extends Activity {
 
 
     public void saveButtonHandler(View view) {
-        model.setWeight(retrieveFloat(R.id.weightField));
         model.setPercentBodyFat(retrieveFloat(R.id.fatField));
         model.setPercentBodyWater(retrieveFloat(R.id.waterField));
         model.setPercentBodyMuscle(retrieveFloat(R.id.muscleField));
@@ -145,4 +154,5 @@ public class WeightLogActivity extends Activity {
         Date readingDate = new Date(date);
         return (1900 + readingDate.getYear()) + "-" + readingDate.getMonth() + "-" + readingDate.getDate();
     }
+
 }
