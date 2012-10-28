@@ -80,7 +80,6 @@ public class WeightLogActivity extends Activity {
 
 
     public void saveButtonHandler(View view) {
-        TextView lastSaved = (TextView) findViewById(R.id.lastSavedDate);
 
         DataPoint dataPoint = new DataPoint();
         dataPoint.setWeight(retrieveFloat(R.id.weightField));
@@ -89,12 +88,12 @@ public class WeightLogActivity extends Activity {
         dataPoint.setBoyMuscleInPercent(retrieveFloat(R.id.muscleField));
         dataPoint.setKilokalorien(retrieveInteger(R.id.kcalField));
         dataPoint.setBoneWeightInKg(retrieveFloat(R.id.boneField));
-
         dataPoint.setDate(new DateTime());
 
-        lastSaved.setText("Last saved: " + dataPoint.getNiceDateFromUnixTime());
-
         dataManipulator.insertReading(dataPoint);
+
+        TextView lastSaved = (TextView) findViewById(R.id.lastSavedDate);
+        lastSaved.setText("Last saved: " + dataPoint.getNiceDateFromUnixTime());
     }
 
     private int retrieveInteger(int viewId) {
