@@ -1,8 +1,5 @@
 package de.pathmaperuma.weightlog;
 
-import java.util.Date;
-import java.util.List;
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Intent;
@@ -11,12 +8,16 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 import de.pathmaperuma.weightlog.csv.WeightDataIO;
 import de.pathmaperuma.weightlog.sql.DataManipulator;
 import org.joda.time.DateTime;
+
+import java.util.Date;
+import java.util.List;
 
 public class WeightLogActivity extends Activity {
     private UserFeedback feedback;
@@ -45,12 +46,14 @@ public class WeightLogActivity extends Activity {
         });
         propagateFloatPropertyToModel(R.id.waterField, new Closure<Float>() {
             @Override
-            public void execute(Float value) {              model.setPercentBodyWater(value);
+            public void execute(Float value) {
+                model.setPercentBodyWater(value);
             }
         });
         propagateFloatPropertyToModel(R.id.muscleField, new Closure<Float>() {
             @Override
-            public void execute(Float value) {                model.setPercentBodyMuscle(value);
+            public void execute(Float value) {
+                model.setPercentBodyMuscle(value);
             }
         });
         propagateFloatPropertyToModel(R.id.boneField, new Closure<Float>() {
@@ -65,6 +68,8 @@ public class WeightLogActivity extends Activity {
                 model.setKilokalorien(value);
             }
         });
+        Button save = (Button) findViewById(R.id.save);
+        save.setOnClickListener(new StoreDataPoint(model, dataManipulator));
     }
 
     private void propagateFloatPropertyToModel(int viewId, Closure<Float> afterTextChange) {
@@ -75,16 +80,6 @@ public class WeightLogActivity extends Activity {
     private void propagateIntegerPropertyToModel(int viewId, Closure<Integer> afterTextChange) {
         EditText et = (EditText) findViewById(viewId);
         et.addTextChangedListener(new IntegerTextWatcher(afterTextChange));
-    }
-
-    public void saveButtonHandler(View view) {
-        model.setTimeTaken(new DateTime());
-
-        DataPoint dataPoint = model.createDataPoint();
-        dataManipulator.insertReading(dataPoint);
-
-        TextView lastSaved = (TextView) findViewById(R.id.lastSavedDate);
-        lastSaved.setText("Last saved: " + dataPoint.getNiceDateFromUnixTime());
     }
 
     @Override
@@ -175,4 +170,24 @@ public class WeightLogActivity extends Activity {
         return (1900 + readingDate.getYear()) + "-" + readingDate.getMonth() + "-" + readingDate.getDate();
     }
 
+    private class StoreDataPoint implements View.OnClickListener {
+
+        private DataPointModel model;
+        private DataManipulator dataManipulator;
+
+        public StoreDataPoint(DataPointModel model, DataManipulator dataManipulator) {
+            this.model = model;
+            this.dataManipulator = dataManipulator;
+        }
+
+        @Override
+        public void onClick(View v) {
+            model.setTimeTaken(new DateTime());
+            DataPoint dataPoint = model.createDataPoint();
+            dataManipulator.insertReading(dataPoint);
+
+            TextView lastSaved = (TextView) findViewById(R.id.lastSavedDate);
+            lastSaved.setText("Last saved: " + dataPoint.getNiceDateFromUnixTime());
+        }
+    }
 }
