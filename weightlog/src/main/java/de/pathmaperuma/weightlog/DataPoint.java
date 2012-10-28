@@ -58,36 +58,8 @@ public class DataPoint {
         this.timeTaken = new DateTime(date);
     }
 
-    public DataPoint() {
-        super();
-    }
-
     public void setWeight(float weight) {
         this.weight = weight;
-    }
-
-    public void setBodyFatInPercent(float bodyFatPercentage) {
-        fat = bodyFatPercentage;
-    }
-
-    public void setBodyWaterInPercent(float setBodyWaterInPercent) {
-        water = setBodyWaterInPercent;
-    }
-
-    public void setBoyMuscleInPercent(float muscleInPercent) {
-        muscle = muscleInPercent;
-    }
-
-    public void setBoneWeightInKg(float boneWeight) {
-        bone = boneWeight;
-    }
-
-    public void setKilokalorien(int kiloCalories) {
-        kcal = kiloCalories;
-    }
-
-    public void setDate(DateTime timeTaken) {
-        date = timeTaken.toDate();
     }
 
     public String getNiceDateFromUnixTime() {
