@@ -45,7 +45,7 @@ public class DataManipulator {
         write(new DeleteAllData());
 	}
 
-	public List<String[]> selectLast() {
+	public List<String[]> selectAllDescendingByDate() {
         return execute(ReadRawDataPoints.OrderedByDateDescending());
     }
 

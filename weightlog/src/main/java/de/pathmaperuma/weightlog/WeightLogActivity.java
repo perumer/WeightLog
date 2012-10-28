@@ -128,7 +128,7 @@ public class WeightLogActivity extends RoboActivity {
 
     private void showGraph() {
         Toast.makeText(this, "generating chart...", Toast.LENGTH_SHORT).show();
-        List<String[]> rows = dataManipulator.selectLast();
+        List<String[]> rows = dataManipulator.selectAllDescendingByDate();
         Graph graph = new Graph();
         Intent intent = graph.getIntent(this, rows);
         startActivity(intent);

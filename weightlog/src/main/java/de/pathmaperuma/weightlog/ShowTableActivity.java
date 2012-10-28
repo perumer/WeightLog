@@ -7,28 +7,26 @@ import android.os.Bundle;
 import android.widget.TextView;
 import android.widget.Toast;
 import de.pathmaperuma.weightlog.sql.DataManipulator;
+import roboguice.activity.RoboActivity;
+import roboguice.inject.InjectView;
 
-public class ShowTableActivity extends Activity {
-	/** Called when the activity is first created. */
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.dataview);
+public class ShowTableActivity extends RoboActivity {
+    @InjectView(R.id.dbContent) TextView content;
+    private final DataManipulator dataManipulator = new DataManipulator(this);
 
-		DataManipulator dh = new DataManipulator(this);
 
-		Toast.makeText(this, "Loading Values...", Toast.LENGTH_SHORT).show();
-		TextView content = (TextView) findViewById(R.id.dbContent);
-		content.setText("DB Content: \n--------------------------\n");
-		content.append("ID, Date, kg, % fat, % water, muscle, kcal, bone(kg)"
-				+ "\n");
-		List<String[]> rows = dh.selectLast();
-		for (String[] s : rows) {
-			String niceDate = WeightLogActivity.getNiceDateFromUnixTime(Long
-					.parseLong(s[1]));
-			content.append(s[0] + " | " + niceDate + " | " + s[2] + " | "
-					+ s[3] + " | " + s[4] + " | " + s[5] + " | " + s[6] + " | "
-					+ s[7] + "\n");
-		}
-	}
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.dataview);
+
+        Toast.makeText(this, "Loading Values...", Toast.LENGTH_SHORT).show();
+        content.setText("DB Content: \n--------------------------\n");
+        content.append("ID, Date, kg, % fat, % water, muscle, kcal, bone(kg)" + "\n");
+        List<String[]> rows = dataManipulator.selectAllDescendingByDate();
+        for (String[] row : rows) {
+            String niceDate = WeightLogActivity.getNiceDateFromUnixTime(Long.parseLong(row[1]));
+            content.append(String.format("%s | %s | %s | %s | %s | %s | %s | %s\n", row[0], niceDate, row[2], row[3], row[4], row[5], row[6], row[7]));
+        }
+    }
 }
