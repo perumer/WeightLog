@@ -19,5 +19,4 @@ public class UserFeedback {
 	void outLong(String s){
 		Toast.makeText(context, s, Toast.LENGTH_LONG).show();
 	}
-
 }
