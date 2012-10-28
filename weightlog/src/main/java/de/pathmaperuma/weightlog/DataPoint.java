@@ -3,6 +3,7 @@ package de.pathmaperuma.weightlog;
 import java.util.Date;
 
 import android.widget.EditText;
+import org.joda.time.DateTime;
 
 public class DataPoint {
 
@@ -13,6 +14,7 @@ public class DataPoint {
     private int kcal;
     private float bone;
     private Date date;
+    private DateTime timeTaken;
 
 
     public String getWeightString() {
@@ -47,7 +49,6 @@ public class DataPoint {
     }
 
     public DataPoint(float weight, float fat, float water, float muscle, int kcal, float bone, Date date) {
-        super();
         this.weight = weight;
         this.fat = fat;
         this.water = water;
@@ -55,6 +56,7 @@ public class DataPoint {
         this.kcal = kcal;
         this.bone = bone;
         this.date = date;
+        this.timeTaken = new DateTime(date);
     }
 
     public DataPoint() {
@@ -101,4 +103,31 @@ public class DataPoint {
         return Float.valueOf(bone).toString();
     }
 
+    public float getWeight() {
+        return weight;
+    }
+
+    public float getPercentBodyFat() {
+        return fat;
+    }
+
+    public float getPercentBodyWater() {
+        return water;
+    }
+
+    public float getPercentBodyMuscle() {
+        return muscle;
+    }
+
+    public float getBoneWeight() {
+        return bone;
+    }
+
+    public int getKilokalorien() {
+        return kcal;
+    }
+
+    public DateTime getTimeTaken() {
+        return timeTaken;
+    }
 }
