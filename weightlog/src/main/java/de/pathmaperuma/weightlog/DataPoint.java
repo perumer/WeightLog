@@ -60,7 +60,7 @@ public class DataPoint {
     }
 
     public String getNiceDateFromUnixTime() {
-        return (1900 + date.getYear()) + "-" + date.getMonth() + "-" + date.getDate();
+        return timeTaken.toString("yyyy-MM-dd");
     }
 
     public String getUnixTimeString() {
