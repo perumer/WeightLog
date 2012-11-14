@@ -22,23 +22,23 @@ public class DataPoint {
     }
 
     public String getWeightString() {
-        return Float.valueOf(weight).toString();
+        return Float.valueOf(getWeight()).toString();
     }
 
     public String getFatString() {
-        return Float.valueOf(fat).toString();
+        return Float.valueOf(getPercentBodyFat()).toString();
     }
 
     public String getWaterString() {
-        return Float.valueOf(water).toString();
+        return Float.valueOf(getPercentBodyWater()).toString();
     }
 
     public String getMuscleString() {
-        return Float.valueOf(muscle).toString();
+        return Float.valueOf(getPercentBodyMuscle()).toString();
     }
 
     public String getKcalString() {
-        return Integer.valueOf(kcal).toString();
+        return Integer.valueOf(getKilokalorien()).toString();
     }
 
     public String getNiceDateFromUnixTime() {
@@ -46,12 +46,11 @@ public class DataPoint {
     }
 
     public String getUnixTimeString() {
-        long millis = timeTaken.toDate().getTime();
-        return Long.valueOf(millis).toString();
+        return Long.valueOf(getTimeTaken().toDate().getTime()).toString();
     }
 
     public String getBoneString() {
-        return Float.valueOf(bone).toString();
+        return Float.valueOf(getBoneWeight()).toString();
     }
 
     public float getWeight() {
