@@ -12,9 +12,7 @@ public class DataPoint {
     private final float muscle;
     private final int kcal;
     private final float bone;
-    private final Date date;
     private final DateTime timeTaken;
-
 
     public String getWeightString() {
         return Float.valueOf(weight).toString();
@@ -38,14 +36,13 @@ public class DataPoint {
 
     public DataPoint(String line) {
         String[] fields = line.split(";");
-        date = new Date(Long.valueOf(fields[1]));
         this.weight = Float.valueOf(fields[2]);
         fat = Float.valueOf(fields[3]);
         water = Float.valueOf(fields[4]);
         muscle = Float.valueOf(fields[5]);
         kcal = Integer.valueOf(fields[6]);
         bone = Float.valueOf(fields[7]);
-        this.timeTaken = new DateTime(date);
+        this.timeTaken = new DateTime(new Date(Long.valueOf(fields[1])));
     }
 
     public DataPoint(float weight, float fat, float water, float muscle, int kcal, float bone, Date date) {
@@ -55,7 +52,6 @@ public class DataPoint {
         this.muscle = muscle;
         this.kcal = kcal;
         this.bone = bone;
-        this.date = date;
         this.timeTaken = new DateTime(date);
     }
 
@@ -64,7 +60,7 @@ public class DataPoint {
     }
 
     public String getUnixTimeString() {
-        return Long.valueOf(date.getTime()).toString();
+        return Long.valueOf(timeTaken.toDate().getTime()).toString();
     }
 
     public String getBoneString() {
