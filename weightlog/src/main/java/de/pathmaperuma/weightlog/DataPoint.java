@@ -5,7 +5,6 @@ import org.joda.time.DateTime;
 import java.util.Date;
 
 public class DataPoint {
-
     private final float weight;
     private final float fat;
     private final float water;
@@ -60,7 +59,8 @@ public class DataPoint {
     }
 
     public String getUnixTimeString() {
-        return Long.valueOf(timeTaken.toDate().getTime()).toString();
+        long millis = timeTaken.toDate().getTime();
+        return Long.valueOf(millis).toString();
     }
 
     public String getBoneString() {
