@@ -21,36 +21,8 @@ public class DataPoint {
         this.timeTaken = date;
     }
 
-    public String getWeightString() {
-        return Float.valueOf(getWeight()).toString();
-    }
-
-    public String getFatString() {
-        return Float.valueOf(getPercentBodyFat()).toString();
-    }
-
-    public String getWaterString() {
-        return Float.valueOf(getPercentBodyWater()).toString();
-    }
-
-    public String getMuscleString() {
-        return Float.valueOf(getPercentBodyMuscle()).toString();
-    }
-
-    public String getKcalString() {
-        return Integer.valueOf(getKilokalorien()).toString();
-    }
-
     public String getNiceDateFromUnixTime() {
         return timeTaken.toString("yyyy-MM-dd");
-    }
-
-    public String getUnixTimeString() {
-        return Long.valueOf(getTimeTaken().toDate().getTime()).toString();
-    }
-
-    public String getBoneString() {
-        return Float.valueOf(getBoneWeight()).toString();
     }
 
     public float getWeight() {

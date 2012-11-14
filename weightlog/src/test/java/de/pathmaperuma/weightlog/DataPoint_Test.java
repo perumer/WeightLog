@@ -16,7 +16,7 @@ public class DataPoint_Test {
 
     @Test
     public void ensureMilliSecondsSinceStartOf1970() throws Exception {
-        assertThat(dataPoint.getUnixTimeString(), is("1336041900000"));
+        assertThat(Long.valueOf(dataPoint.getTimeTaken().toDate().getTime()).toString(), is("1336041900000"));
 
     }
 }
