@@ -11,6 +11,16 @@ public class DataPoint {
     private final float bone;
     private final DateTime timeTaken;
 
+    public DataPoint(float weight, float fat, float water, float muscle, int kcal, float bone, DateTime date) {
+        this.weight = weight;
+        this.fat = fat;
+        this.water = water;
+        this.muscle = muscle;
+        this.kcal = kcal;
+        this.bone = bone;
+        this.timeTaken = date;
+    }
+
     public String getWeightString() {
         return Float.valueOf(weight).toString();
     }
@@ -29,16 +39,6 @@ public class DataPoint {
 
     public String getKcalString() {
         return Integer.valueOf(kcal).toString();
-    }
-
-    public DataPoint(float weight, float fat, float water, float muscle, int kcal, float bone, DateTime date) {
-        this.weight = weight;
-        this.fat = fat;
-        this.water = water;
-        this.muscle = muscle;
-        this.kcal = kcal;
-        this.bone = bone;
-        this.timeTaken = date;
     }
 
     public String getNiceDateFromUnixTime() {
