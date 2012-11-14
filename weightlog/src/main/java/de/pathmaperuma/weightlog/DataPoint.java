@@ -2,8 +2,6 @@ package de.pathmaperuma.weightlog;
 
 import org.joda.time.DateTime;
 
-import java.util.Date;
-
 public class DataPoint {
     private final float weight;
     private final float fat;
@@ -31,17 +29,6 @@ public class DataPoint {
 
     public String getKcalString() {
         return Integer.valueOf(kcal).toString();
-    }
-
-    public DataPoint(String line) {
-        String[] fields = line.split(";");
-        this.weight = Float.valueOf(fields[2]);
-        fat = Float.valueOf(fields[3]);
-        water = Float.valueOf(fields[4]);
-        muscle = Float.valueOf(fields[5]);
-        kcal = Integer.valueOf(fields[6]);
-        bone = Float.valueOf(fields[7]);
-        this.timeTaken = new DateTime(new Date(Long.valueOf(fields[1])));
     }
 
     public DataPoint(float weight, float fat, float water, float muscle, int kcal, float bone, DateTime date) {
