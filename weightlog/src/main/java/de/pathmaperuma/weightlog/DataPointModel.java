@@ -2,8 +2,6 @@ package de.pathmaperuma.weightlog;
 
 import org.joda.time.DateTime;
 
-import java.util.Date;
-
 public class DataPointModel {
     private float weight;
     private float percentBodyFat;
@@ -42,6 +40,7 @@ public class DataPointModel {
     }
 
     public DataPoint createDataPoint() {
-        return new DataPoint(weight, percentBodyFat, percentBodyWater, percentBodyMuscle, kilokalorien, boneWeight, timeTaken==null?new Date():timeTaken.toDate());
+        DateTime date = timeTaken == null ? new DateTime() : timeTaken;
+        return new DataPoint(weight, percentBodyFat, percentBodyWater, percentBodyMuscle, kilokalorien, boneWeight, date);
     }
 }

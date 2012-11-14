@@ -44,14 +44,14 @@ public class DataPoint {
         this.timeTaken = new DateTime(new Date(Long.valueOf(fields[1])));
     }
 
-    public DataPoint(float weight, float fat, float water, float muscle, int kcal, float bone, Date date) {
+    public DataPoint(float weight, float fat, float water, float muscle, int kcal, float bone, DateTime date) {
         this.weight = weight;
         this.fat = fat;
         this.water = water;
         this.muscle = muscle;
         this.kcal = kcal;
         this.bone = bone;
-        this.timeTaken = new DateTime(date);
+        this.timeTaken = date;
     }
 
     public String getNiceDateFromUnixTime() {
