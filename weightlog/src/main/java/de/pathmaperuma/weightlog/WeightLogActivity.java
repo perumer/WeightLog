@@ -124,7 +124,6 @@ public class WeightLogActivity extends RoboActivity {
         this.dataManipulator.deleteAll();
     }
 
-
     private void showGraph() {
         Toast.makeText(this, "generating chart...", Toast.LENGTH_SHORT).show();
         List<DataPoint> dataPoints = dataManipulator.selectAllDataPointsDescendingByDate();
