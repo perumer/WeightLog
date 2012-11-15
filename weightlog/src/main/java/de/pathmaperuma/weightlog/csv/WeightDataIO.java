@@ -48,7 +48,7 @@ public class WeightDataIO {
             String line;
             while ((line = bReader.readLine()) != null) {
                 System.out.println(line);
-                DataPoint dp = createDataPoint(line);
+                DataPoint dp = deSerializeDataPointFromCsv(line);
                 list.add(dp);
             }
             bReader.close();
@@ -60,15 +60,35 @@ public class WeightDataIO {
         return list;
     }
 
-    private static DataPoint createDataPoint(String line) {
+    public void writeExportData(List<DataPoint> rows, UserFeedback feedback) {
+        StringBuilder builder = new StringBuilder();
+        for (DataPoint row : rows) {
+            serializeDataPointAsCsv(builder, row);
+        }
+        writeExportData(builder.toString(), feedback);
+    }
+
+    private static void serializeDataPointAsCsv(StringBuilder builder, DataPoint row) {
+        builder.append("[ignored id]").append(";");
+        builder.append(row.getTimeTaken().getMillis()).append(";");
+        builder.append(row.getWeight()).append(";");
+        builder.append(row.getPercentBodyFat()).append(";");
+        builder.append(row.getPercentBodyWater()).append(";");
+        builder.append(row.getPercentBodyMuscle()).append(";");
+        builder.append(row.getKilokalorien()).append(";");
+        builder.append(row.getBoneWeight()).append(";");
+        builder.append("\n");
+    }
+
+    private static DataPoint deSerializeDataPointFromCsv(String line) {
         String[] fields = line.split(";");
+        DateTime timeTaken = new DateTime(new Date(Long.valueOf(fields[1])));
         float weight = Float.valueOf(fields[2]);
         float fat = Float.valueOf(fields[3]);
         float water = Float.valueOf(fields[4]);
         float muscle = Float.valueOf(fields[5]);
         int kcal = Integer.valueOf(fields[6]);
         float bone = Float.valueOf(fields[7]);
-        DateTime timeTaken = new DateTime(new Date(Long.valueOf(fields[1])));
         return new DataPoint(weight, fat, water, muscle, kcal, bone, timeTaken);
     }
 }

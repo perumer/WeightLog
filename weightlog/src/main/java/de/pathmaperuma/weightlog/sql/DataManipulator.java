@@ -57,8 +57,9 @@ public class DataManipulator {
         return execute(ReadRawDataPoints.OrderedByDateDescending());
     }
 
-    public List<String[]> selectAll() {
-        return execute(ReadRawDataPoints.OrderedByDateAscending());
+    public List<DataPoint> selectAll() {
+        List<String[]> rows = execute(ReadRawDataPoints.OrderedByDateAscending());
+        return createDataPointsFrom(rows);
     }
 
     private List<String[]> execute(ReadRawDataPoints dataManipulation) {

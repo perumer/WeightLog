@@ -20,6 +20,7 @@ import roboguice.inject.InjectView;
 import java.util.List;
 
 public class WeightLogActivity extends RoboActivity {
+    private final WeightDataIO weightDataIO = new WeightDataIO();
     private UserFeedback feedback;
     private DataManipulator dataManipulator;
     private final DataPointModel model = new DataPointModel();
@@ -137,9 +138,8 @@ public class WeightLogActivity extends RoboActivity {
     }
 
     private void handleImport() {
-        WeightDataIO io = new WeightDataIO();
         feedback.out("reading import file..");
-        List<DataPoint> dataPoints = io.readImportData(feedback);
+        List<DataPoint> dataPoints = weightDataIO.readImportData(feedback);
         for (DataPoint dataPoint : dataPoints) {
             dataManipulator.insertReading(dataPoint);
         }
@@ -147,17 +147,8 @@ public class WeightLogActivity extends RoboActivity {
     }
 
     private void handleExport() {
-        List<String[]> rows = dataManipulator.selectAll();
-        String exportData = "";
-
-        for (String[] row : rows) {
-            for (String field : row) {
-                exportData += field + ";";
-            }
-            exportData += "\n";
-        }
-        WeightDataIO weightDataIO = new WeightDataIO();
-        weightDataIO.writeExportData(exportData, feedback);
+        List<DataPoint> rows = dataManipulator.selectAll();
+        weightDataIO.writeExportData(rows, feedback);
     }
 
     private class StoreDataPoint implements View.OnClickListener {
