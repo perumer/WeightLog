@@ -139,11 +139,11 @@ public class WeightLogActivity extends RoboActivity {
     private void handleImport() {
         WeightDataIO io = new WeightDataIO();
         feedback.out("reading import file..");
-        List<DataPoint> dps = io.readImportData(feedback);
-        for (DataPoint dp : dps) {
-            dataManipulator.insertReading(dp);
+        List<DataPoint> dataPoints = io.readImportData(feedback);
+        for (DataPoint dataPoint : dataPoints) {
+            dataManipulator.insertReading(dataPoint);
         }
-        feedback.out(dps.size() + " datasets imported");
+        feedback.out(dataPoints.size() + " datasets imported");
     }
 
     private void handleExport() {
@@ -156,12 +156,11 @@ public class WeightLogActivity extends RoboActivity {
             }
             exportData += "\n";
         }
-        WeightDataIO io = new WeightDataIO();
-        io.writeExportData(exportData, feedback);
+        WeightDataIO weightDataIO = new WeightDataIO();
+        weightDataIO.writeExportData(exportData, feedback);
     }
 
     private class StoreDataPoint implements View.OnClickListener {
-
         private DataPointModel model;
         private DataManipulator dataManipulator;
 
