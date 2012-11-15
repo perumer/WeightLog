@@ -14,6 +14,10 @@ public class DataManipulator {
     public static final String TABLE_NAME = "weighttable";
 	private final Context context;
 
+    public DataManipulator(Context context) {
+        this.context = context;
+    }
+
     public void read(DataManipulation manipulation){
         SQLiteDatabase database = openReadableDB();
         manipulation.manipulateIn(database);
@@ -26,40 +30,36 @@ public class DataManipulator {
         database.close();
     }
 
-	public DataManipulator(Context context) {
-		this.context = context;
-	}
-	
-	private SQLiteDatabase openWritableDB(){
-		OpenHelper openHelper = new OpenHelper(this.context);
-        return openHelper.getWritableDatabase();
-	}
-	
-	private SQLiteDatabase openReadableDB(){
-		OpenHelper openHelper = new OpenHelper(this.context);
-        return openHelper.getReadableDatabase();
-	}
-	
-	public void insertReading(final DataPoint dp) {
+    public void insertReading(DataPoint dp) {
         write(new WriteDataPoint(dp));
-	}
+    }
 
-	public void deleteAll() {
+    public void deleteAll() {
         write(new DeleteAllData());
-	}
+    }
+
+    public List<DataPoint> selectAll() {
+        List<String[]> rows = execute(ReadRawDataPoints.OrderedByDateAscending());
+        return createDataPointsFrom(rows);
+    }
 
     public List<DataPoint> selectAllDataPointsDescendingByDate() {
         List<String[]> rows = selectAllDescendingByDate();
         return createDataPointsFrom(rows);
     }
 
+	private SQLiteDatabase openWritableDB(){
+		OpenHelper openHelper = new OpenHelper(this.context);
+        return openHelper.getWritableDatabase();
+	}
+
+	private SQLiteDatabase openReadableDB(){
+		OpenHelper openHelper = new OpenHelper(this.context);
+        return openHelper.getReadableDatabase();
+	}
+
 	private List<String[]> selectAllDescendingByDate() {
         return execute(ReadRawDataPoints.OrderedByDateDescending());
-    }
-
-    public List<DataPoint> selectAll() {
-        List<String[]> rows = execute(ReadRawDataPoints.OrderedByDateAscending());
-        return createDataPointsFrom(rows);
     }
 
     private List<String[]> execute(ReadRawDataPoints dataManipulation) {
@@ -82,7 +82,7 @@ public class DataManipulator {
         return dataPoints;
     }
 
-    public static class OpenHelper extends SQLiteOpenHelper {
+    private static class OpenHelper extends SQLiteOpenHelper {
         private static final String DATABASE_NAME = "weightdatabase.db";
         private static final int DATABASE_VERSION = 2;
 
