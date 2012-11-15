@@ -53,7 +53,7 @@ public class DataManipulator {
         return createDataPointsFrom(rows);
     }
 
-	public List<String[]> selectAllDescendingByDate() {
+	private List<String[]> selectAllDescendingByDate() {
         return execute(ReadRawDataPoints.OrderedByDateDescending());
     }
 
@@ -74,7 +74,7 @@ public class DataManipulator {
             float fat = Float.parseFloat(s[3]);
             float water= Float.parseFloat(s[4]);
             float muscle = Float.parseFloat(s[5]);
-            int kcal = Integer.parseInt(s[6]) / 100;
+            int kcal = Integer.parseInt(s[6]);
             float bone = Float.parseFloat(s[7]);
             dataPoints.add(new DataPoint(weight, fat, water, muscle, kcal, bone, new DateTime(date)));
         }
