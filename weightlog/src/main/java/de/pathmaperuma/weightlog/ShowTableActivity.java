@@ -19,7 +19,6 @@ public class ShowTableActivity extends RoboActivity {
         return (1900 + readingDate.getYear()) + "-" + readingDate.getMonth() + "-" + readingDate.getDate();
     }
 
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,6 +28,8 @@ public class ShowTableActivity extends RoboActivity {
         content.setText("DB Content: \n--------------------------\n");
         content.append("Date, kg, % fat, % water, muscle, kcal, bone(kg)" + "\n");
         List<String[]> rows = dataManipulator.selectAllDescendingByDate();
+
+
 
 
         for (String[] row : rows) {

@@ -8,29 +8,11 @@ import org.achartengine.model.TimeSeries;
 import org.achartengine.model.XYMultipleSeriesDataset;
 import org.achartengine.renderer.XYMultipleSeriesRenderer;
 import org.achartengine.renderer.XYSeriesRenderer;
-import org.joda.time.DateTime;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 public class Graph {
-
-    public Intent getIntent(Context context, List<String[]> rows) {
-        List<DataPoint> dataPoints = new ArrayList<DataPoint>(rows.size());
-        for (String[] s : rows) {
-            Date date = new Date(Long.parseLong(s[1]));
-            float weight = Float.parseFloat(s[2]);
-            float fat = Float.parseFloat(s[3]);
-            float water= Float.parseFloat(s[4]);
-            float muscle = Float.parseFloat(s[5]);
-            int kcal = Integer.parseInt(s[6]) / 100;
-            float bone = Float.parseFloat(s[7]);
-            dataPoints.add(new DataPoint(weight, fat, water, muscle, kcal, bone, new DateTime(date)));
-        }
-        return createIntent(context, dataPoints);
-
-    }
 
     public Intent createIntent(Context context, List<DataPoint> dataPoints) {
         TimeSeries weightSeries = new TimeSeries("weight (kg)");

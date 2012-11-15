@@ -4,7 +4,10 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import de.pathmaperuma.weightlog.DataPoint;
+import org.joda.time.DateTime;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class DataManipulator {
@@ -45,6 +48,11 @@ public class DataManipulator {
         write(new DeleteAllData());
 	}
 
+    public List<DataPoint> selectAllDataPointsDescendingByDate() {
+        List<String[]> rows = selectAllDescendingByDate();
+        return createDataPointsFrom(rows);
+    }
+
 	public List<String[]> selectAllDescendingByDate() {
         return execute(ReadRawDataPoints.OrderedByDateDescending());
     }
@@ -56,6 +64,21 @@ public class DataManipulator {
     private List<String[]> execute(ReadRawDataPoints dataManipulation) {
         read(dataManipulation);
         return dataManipulation.result;
+    }
+
+    private List<DataPoint> createDataPointsFrom(List<String[]> rows) {
+        List<DataPoint> dataPoints = new ArrayList<DataPoint>(rows.size());
+        for (String[] s : rows) {
+            Date date = new Date(Long.parseLong(s[1]));
+            float weight = Float.parseFloat(s[2]);
+            float fat = Float.parseFloat(s[3]);
+            float water= Float.parseFloat(s[4]);
+            float muscle = Float.parseFloat(s[5]);
+            int kcal = Integer.parseInt(s[6]) / 100;
+            float bone = Float.parseFloat(s[7]);
+            dataPoints.add(new DataPoint(weight, fat, water, muscle, kcal, bone, new DateTime(date)));
+        }
+        return dataPoints;
     }
 
     public static class OpenHelper extends SQLiteOpenHelper {
