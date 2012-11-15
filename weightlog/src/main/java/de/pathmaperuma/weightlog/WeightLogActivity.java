@@ -17,7 +17,6 @@ import org.joda.time.DateTime;
 import roboguice.activity.RoboActivity;
 import roboguice.inject.InjectView;
 
-import java.util.Date;
 import java.util.List;
 
 public class WeightLogActivity extends RoboActivity {
@@ -160,15 +159,6 @@ public class WeightLogActivity extends RoboActivity {
         }
         WeightDataIO io = new WeightDataIO();
         io.writeExportData(exportData, feedback);
-    }
-
-    /**
-     * @param date (Unix Timestamp)
-     * @return 2012-5-27
-     */
-    static String getNiceDateFromUnixTime(long date) {
-        Date readingDate = new Date(date);
-        return (1900 + readingDate.getYear()) + "-" + readingDate.getMonth() + "-" + readingDate.getDate();
     }
 
     private class StoreDataPoint implements View.OnClickListener {
