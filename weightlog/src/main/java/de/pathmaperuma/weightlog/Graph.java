@@ -17,30 +17,22 @@ import java.util.List;
 public class Graph {
 
     public Intent getIntent(Context context, List<String[]> rows) {
-        int setSize = rows.size();
-        Date[] date = new Date[setSize];
-        float[] weights = new float[setSize];
-        float[] fats = new float[setSize];
-        float[] water = new float[setSize];
-        float[] muscle = new float[setSize];
-        int[] kcal = new int[setSize];
-        float[] bone = new float[setSize];
-
-        List<DataPoint> dataPoints = new ArrayList<DataPoint>();
-
-        int count = 0;
+        List<DataPoint> dataPoints = new ArrayList<DataPoint>(rows.size());
         for (String[] s : rows) {
-            date[count] = new Date(Long.parseLong(s[1]));
-            weights[count] = Float.parseFloat(s[2]);
-            fats[count] = Float.parseFloat(s[3]);
-            water[count] = Float.parseFloat(s[4]);
-            muscle[count] = Float.parseFloat(s[5]);
-            kcal[count] = Integer.parseInt(s[6]) / 100;
-            bone[count] = Float.parseFloat(s[7]);
-            dataPoints.add(new DataPoint(weights[count], fats[count], water[count], muscle[count], kcal[count], bone[count], new DateTime(date[count])));
-            count++;
+            Date date = new Date(Long.parseLong(s[1]));
+            float weight = Float.parseFloat(s[2]);
+            float fat = Float.parseFloat(s[3]);
+            float water= Float.parseFloat(s[4]);
+            float muscle = Float.parseFloat(s[5]);
+            int kcal = Integer.parseInt(s[6]) / 100;
+            float bone = Float.parseFloat(s[7]);
+            dataPoints.add(new DataPoint(weight, fat, water, muscle, kcal, bone, new DateTime(date)));
         }
+        return createIntent(context, dataPoints);
 
+    }
+
+    public Intent createIntent(Context context, List<DataPoint> dataPoints) {
         TimeSeries weightSeries = new TimeSeries("weight (kg)");
         TimeSeries fatSeries = new TimeSeries("fat (%)");
         TimeSeries waterSeries = new TimeSeries("water (%)");
@@ -49,14 +41,14 @@ public class Graph {
         TimeSeries boneSeries = new TimeSeries("bone (kg)");
 
 
-        for (int i = 0; i < dataPoints.size(); i++) {
-            Date dateTaken = dataPoints.get(i).getTimeTaken().toDate();
-            kcalSeries.add(dateTaken, kcal[i]);
-            muscleSeries.add(dateTaken, muscle[i]);
-            fatSeries.add(dateTaken, fats[i]);
-            waterSeries.add(dateTaken, water[i]);
-            weightSeries.add(dateTaken, weights[i]);
-            boneSeries.add(dateTaken, bone[i]);
+        for (DataPoint dataPoint : dataPoints) {
+            Date timeTaken = dataPoint.getTimeTaken().toDate();
+            kcalSeries.add(timeTaken, dataPoint.getKilokalorien());
+            muscleSeries.add(timeTaken, dataPoint.getPercentBodyMuscle());
+            fatSeries.add(timeTaken, dataPoint.getPercentBodyFat());
+            waterSeries.add(timeTaken, dataPoint.getPercentBodyWater());
+            weightSeries.add(timeTaken, dataPoint.getWeight());
+            boneSeries.add(timeTaken, dataPoint.getBoneWeight());
         }
 
 
@@ -128,7 +120,6 @@ public class Graph {
         mrenderer.addSeriesRenderer(renderer6);
 
         return ChartFactory.getTimeChartIntent(context, dataset, mrenderer, "Histogram");
-
     }
 
 }
