@@ -8,6 +8,7 @@ import org.achartengine.model.TimeSeries;
 import org.achartengine.model.XYMultipleSeriesDataset;
 import org.achartengine.renderer.XYMultipleSeriesRenderer;
 import org.achartengine.renderer.XYSeriesRenderer;
+import org.joda.time.DateTime;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -18,24 +19,25 @@ public class Graph {
     public Intent getIntent(Context context, List<String[]> rows) {
         int setSize = rows.size();
         Date[] date = new Date[setSize];
-        double[] weights = new double[setSize];
-        double[] fats = new double[setSize];
-        double[] water = new double[setSize];
-        double[] muscle = new double[setSize];
-        double[] kcal = new double[setSize];
-        double[] bone = new double[setSize];
+        float[] weights = new float[setSize];
+        float[] fats = new float[setSize];
+        float[] water = new float[setSize];
+        float[] muscle = new float[setSize];
+        int[] kcal = new int[setSize];
+        float[] bone = new float[setSize];
 
         List<DataPoint> dataPoints = new ArrayList<DataPoint>();
 
         int count = 0;
         for (String[] s : rows) {
             date[count] = new Date(Long.parseLong(s[1]));
-            weights[count] = Double.parseDouble(s[2]);
-            fats[count] = Double.parseDouble(s[3]);
-            water[count] = Double.parseDouble(s[4]);
-            muscle[count] = Double.parseDouble(s[5]);
-            kcal[count] = Double.parseDouble(s[6]) / 100;
-            bone[count] = Double.parseDouble(s[7]);
+            weights[count] = Float.parseFloat(s[2]);
+            fats[count] = Float.parseFloat(s[3]);
+            water[count] = Float.parseFloat(s[4]);
+            muscle[count] = Float.parseFloat(s[5]);
+            kcal[count] = Integer.parseInt(s[6]) / 100;
+            bone[count] = Float.parseFloat(s[7]);
+            dataPoints.add(new DataPoint(weights[count], fats[count], water[count], muscle[count], kcal[count], bone[count], new DateTime(date[count])));
             count++;
         }
 
@@ -47,13 +49,14 @@ public class Graph {
         TimeSeries boneSeries = new TimeSeries("bone (kg)");
 
 
-        for (int i = 0; i < setSize; i++) {
-            kcalSeries.add(date[i], kcal[i]);
-            muscleSeries.add(date[i], muscle[i]);
-            fatSeries.add(date[i], fats[i]);
-            waterSeries.add(date[i], water[i]);
-            weightSeries.add(date[i], weights[i]);
-            boneSeries.add(date[i], bone[i]);
+        for (int i = 0; i < dataPoints.size(); i++) {
+            Date dateTaken = dataPoints.get(i).getTimeTaken().toDate();
+            kcalSeries.add(dateTaken, kcal[i]);
+            muscleSeries.add(dateTaken, muscle[i]);
+            fatSeries.add(dateTaken, fats[i]);
+            waterSeries.add(dateTaken, water[i]);
+            weightSeries.add(dateTaken, weights[i]);
+            boneSeries.add(dateTaken, bone[i]);
         }
 
 
