@@ -1,23 +1,23 @@
 package de.pathmaperuma.weightlog;
 
-import java.util.Date;
-import java.util.List;
-
+import android.content.Context;
+import android.content.Intent;
+import android.graphics.Color;
 import org.achartengine.ChartFactory;
 import org.achartengine.model.TimeSeries;
 import org.achartengine.model.XYMultipleSeriesDataset;
 import org.achartengine.renderer.XYMultipleSeriesRenderer;
 import org.achartengine.renderer.XYSeriesRenderer;
 
-import android.content.Context;
-import android.content.Intent;
-import android.graphics.Color;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 public class Graph {
 
     public Intent getIntent(Context context, List<String[]> rows) {
         int setSize = rows.size();
-        long[] date = new long[setSize];
+        Date[] date = new Date[setSize];
         double[] weights = new double[setSize];
         double[] fats = new double[setSize];
         double[] water = new double[setSize];
@@ -25,9 +25,11 @@ public class Graph {
         double[] kcal = new double[setSize];
         double[] bone = new double[setSize];
 
+        List<DataPoint> dataPoints = new ArrayList<DataPoint>();
+
         int count = 0;
         for (String[] s : rows) {
-            date[count] = Long.parseLong(s[1]);
+            date[count] = new Date(Long.parseLong(s[1]));
             weights[count] = Double.parseDouble(s[2]);
             fats[count] = Double.parseDouble(s[3]);
             water[count] = Double.parseDouble(s[4]);
@@ -46,12 +48,12 @@ public class Graph {
 
 
         for (int i = 0; i < setSize; i++) {
-            kcalSeries.add(new Date(date[i]), kcal[i]);
-            muscleSeries.add(new Date(date[i]), muscle[i]);
-            fatSeries.add(new Date(date[i]), fats[i]);
-            waterSeries.add(new Date(date[i]), water[i]);
-            weightSeries.add(new Date(date[i]), weights[i]);
-            boneSeries.add(new Date(date[i]), bone[i]);
+            kcalSeries.add(date[i], kcal[i]);
+            muscleSeries.add(date[i], muscle[i]);
+            fatSeries.add(date[i], fats[i]);
+            waterSeries.add(date[i], water[i]);
+            weightSeries.add(date[i], weights[i]);
+            boneSeries.add(date[i], bone[i]);
         }
 
 
