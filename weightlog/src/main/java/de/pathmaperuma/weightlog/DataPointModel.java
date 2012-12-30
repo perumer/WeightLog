@@ -3,6 +3,7 @@ package de.pathmaperuma.weightlog;
 import org.joda.time.DateTime;
 
 public class DataPointModel {
+
     private float weight;
     private float percentBodyFat;
     private float percentBodyWater;
