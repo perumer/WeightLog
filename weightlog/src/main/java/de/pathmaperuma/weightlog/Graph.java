@@ -25,11 +25,11 @@ public class Graph {
 
         for (DataPoint dataPoint : dataPoints) {
             Date timeTaken = dataPoint.getTimeTaken().toDate();
+            weightSeries.add(timeTaken, dataPoint.getWeight());
             kcalSeries.add(timeTaken, dataPoint.getKilokalorien() / 100);
             muscleSeries.add(timeTaken, dataPoint.getPercentBodyMuscle());
             fatSeries.add(timeTaken, dataPoint.getPercentBodyFat());
             waterSeries.add(timeTaken, dataPoint.getPercentBodyWater());
-            weightSeries.add(timeTaken, dataPoint.getWeight());
             boneSeries.add(timeTaken, dataPoint.getBoneWeight());
         }
 
