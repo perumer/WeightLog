@@ -34,7 +34,6 @@ public class WeightDataIO {
             feedback.out("Data successfully written");
         } catch (Exception e) {
             feedback.outLong(e.getMessage());
-
         }
     }
 
@@ -69,15 +68,15 @@ public class WeightDataIO {
         writeExportData(builder.toString(), feedback);
     }
 
-    private static void serializeDataPointAsCsv(StringBuilder builder, DataPoint row) {
+    private static void serializeDataPointAsCsv(StringBuilder builder, DataPoint datpoint) {
         builder.append("[ignored id]").append(";");
-        builder.append(row.getTimeTaken().getMillis()).append(";");
-        builder.append(row.getWeight()).append(";");
-        builder.append(row.getPercentBodyFat()).append(";");
-        builder.append(row.getPercentBodyWater()).append(";");
-        builder.append(row.getPercentBodyMuscle()).append(";");
-        builder.append(row.getKilokalorien()).append(";");
-        builder.append(row.getBoneWeight()).append(";");
+        builder.append(datpoint.getTimeTaken().getMillis()).append(";");
+        builder.append(datpoint.getWeight()).append(";");
+        builder.append(datpoint.getPercentBodyFat()).append(";");
+        builder.append(datpoint.getPercentBodyWater()).append(";");
+        builder.append(datpoint.getPercentBodyMuscle()).append(";");
+        builder.append(datpoint.getKilokalorien()).append(";");
+        builder.append(datpoint.getBoneWeight()).append(";");
         builder.append("\n");
     }
 
