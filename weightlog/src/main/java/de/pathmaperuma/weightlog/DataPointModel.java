@@ -1,5 +1,6 @@
 package de.pathmaperuma.weightlog;
 
+import de.pathmaperuma.weightlog.configuration.Daniel;
 import org.joda.time.DateTime;
 
 public class DataPointModel {
@@ -42,6 +43,6 @@ public class DataPointModel {
 
     public DataPoint createDataPoint() {
         DateTime date = timeTaken == null ? new DateTime() : timeTaken;
-        return DataPoint.Daniel(weight, percentBodyFat, percentBodyWater, percentBodyMuscle, kilokalorien, boneWeight, date);
+        return Daniel.DataPoint(weight, percentBodyFat, percentBodyWater, percentBodyMuscle, kilokalorien, boneWeight, date);
     }
 }

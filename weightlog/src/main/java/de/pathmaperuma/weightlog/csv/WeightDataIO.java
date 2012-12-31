@@ -1,6 +1,7 @@
 package de.pathmaperuma.weightlog.csv;
 
 import android.os.Environment;
+import de.pathmaperuma.weightlog.configuration.Daniel;
 import de.pathmaperuma.weightlog.DataPoint;
 import de.pathmaperuma.weightlog.UserFeedback;
 import org.joda.time.DateTime;
@@ -89,6 +90,6 @@ public class WeightDataIO {
         float muscle = Float.valueOf(fields[5]);
         int kcal = Integer.valueOf(fields[6]);
         float bone = Float.valueOf(fields[7]);
-        return DataPoint.Daniel(weight, fat, water, muscle, kcal, bone, timeTaken);
+        return Daniel.DataPoint(weight, fat, water, muscle, kcal, bone, timeTaken);
     }
 }

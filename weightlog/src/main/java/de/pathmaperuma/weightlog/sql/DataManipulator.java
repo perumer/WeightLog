@@ -3,6 +3,7 @@ package de.pathmaperuma.weightlog.sql;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import de.pathmaperuma.weightlog.configuration.Daniel;
 import de.pathmaperuma.weightlog.DataPoint;
 import org.joda.time.DateTime;
 
@@ -77,7 +78,7 @@ public class DataManipulator {
             float muscle = Float.parseFloat(s[5]);
             int kcal = Integer.parseInt(s[6]);
             float bone = Float.parseFloat(s[7]);
-            dataPoints.add(DataPoint.Daniel(weight, fat, water, muscle, kcal, bone, new DateTime(date)));
+            dataPoints.add(Daniel.DataPoint(weight, fat, water, muscle, kcal, bone, new DateTime(date)));
         }
         return dataPoints;
     }
