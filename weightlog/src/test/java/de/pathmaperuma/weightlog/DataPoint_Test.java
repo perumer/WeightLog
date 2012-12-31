@@ -39,6 +39,4 @@ public class DataPoint_Test {
         dataPoint.measured(new ValueClassifier("weight"), attachedValue);
         assertThat(dataPoint.valueFor(new ValueClassifier("weight")), is(attachedValue));
     }
-
-
 }
