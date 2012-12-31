@@ -89,6 +89,6 @@ public class WeightDataIO {
         float muscle = Float.valueOf(fields[5]);
         int kcal = Integer.valueOf(fields[6]);
         float bone = Float.valueOf(fields[7]);
-        return new DataPoint(weight, fat, water, muscle, kcal, bone, timeTaken);
+        return DataPoint.Daniel(weight, fat, water, muscle, kcal, bone, timeTaken);
     }
 }

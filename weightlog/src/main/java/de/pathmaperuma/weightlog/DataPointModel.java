@@ -42,6 +42,6 @@ public class DataPointModel {
 
     public DataPoint createDataPoint() {
         DateTime date = timeTaken == null ? new DateTime() : timeTaken;
-        return new DataPoint(weight, percentBodyFat, percentBodyWater, percentBodyMuscle, kilokalorien, boneWeight, date);
+        return DataPoint.Daniel(weight, percentBodyFat, percentBodyWater, percentBodyMuscle, kilokalorien, boneWeight, date);
     }
 }

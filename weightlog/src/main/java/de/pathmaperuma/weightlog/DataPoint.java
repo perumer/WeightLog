@@ -13,6 +13,25 @@ import java.util.Map;
 import java.util.Set;
 
 public class DataPoint {
+
+    public static final ValueClassifier ClassifierWeight = new ValueClassifier("weight");
+    public static final ValueClassifier ClassifierFat = new ValueClassifier("fat");
+    public static final ValueClassifier ClassifierWater = new ValueClassifier("water");
+    public static final ValueClassifier ClassifierMuscle = new ValueClassifier("muscle");
+    public static final ValueClassifier ClassifierKiloKalories = new ValueClassifier("kcal");
+    public static final ValueClassifier ClassifierBone = new ValueClassifier("bone");
+
+    public static DataPoint Daniel(float weight, float fat, float water, float muscle, int kcal, float bone, DateTime date) {
+        DataPoint dataPoint = new DataPoint(weight, fat, water, muscle, kcal, bone, date);
+        dataPoint.measured(ClassifierWeight, new FloatValue(weight));
+        dataPoint.measured(ClassifierFat, new FloatValue(fat));
+        dataPoint.measured(ClassifierWater, new FloatValue(water));
+        dataPoint.measured(ClassifierMuscle, new FloatValue(muscle));
+        dataPoint.measured(ClassifierKiloKalories, new IntegerValue(kcal));
+        dataPoint.measured(ClassifierBone, new FloatValue(bone));
+        return dataPoint;
+    }
+
     private final Value weight;
     private final Value fat;
     private final Value water;
@@ -20,9 +39,10 @@ public class DataPoint {
     private final Value kcal;
     private final Value bone;
     private final DateTime timeTaken;
+
     private final Map<ValueClassifier, Value> values = $Maps.newHashMap();
 
-    public DataPoint(float weight, float fat, float water, float muscle, int kcal, float bone, DateTime date) {
+    private DataPoint(float weight, float fat, float water, float muscle, int kcal, float bone, DateTime date) {
         this.weight = new FloatValue(weight);
         this.fat = new FloatValue(fat);
         this.water = new FloatValue(water);

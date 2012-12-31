@@ -77,7 +77,7 @@ public class DataManipulator {
             float muscle = Float.parseFloat(s[5]);
             int kcal = Integer.parseInt(s[6]);
             float bone = Float.parseFloat(s[7]);
-            dataPoints.add(new DataPoint(weight, fat, water, muscle, kcal, bone, new DateTime(date)));
+            dataPoints.add(DataPoint.Daniel(weight, fat, water, muscle, kcal, bone, new DateTime(date)));
         }
         return dataPoints;
     }
