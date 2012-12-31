@@ -1,5 +1,8 @@
 package de.pathmaperuma.weightlog;
 
+import de.pathmaperuma.weightlog.csv.ValueClassifier;
+import de.pathmaperuma.weightlog.values.FloatValue;
+import de.pathmaperuma.weightlog.values.Value;
 import org.joda.time.DateTime;
 import org.junit.Test;
 
@@ -17,6 +20,23 @@ public class DataPoint_Test {
     @Test
     public void ensureMilliSecondsSinceStartOf1970() throws Exception {
         assertThat(Long.valueOf(dataPoint.getTimeTaken().toDate().getTime()).toString(), is("1336041900000"));
+    }
 
+    @Test
+    public void aNewCreatedDataPointHasNoIdentifiers() throws Exception {
+        assertThat(dataPoint.classifiers().size(), is(0));
+    }
+
+    @Test
+    public void returnAllIdentifiersPreviouslyPut() throws Exception {
+        dataPoint.measured(new ValueClassifier("weight"), new FloatValue(82f));
+        assertThat(dataPoint.classifiers().size(), is(1));
+    }
+
+    @Test
+    public void retrieveTheValueByClassifier() throws Exception {
+        Value attachedValue = new FloatValue(7f);
+        dataPoint.measured(new ValueClassifier("weight"), attachedValue);
+        assertThat(dataPoint.valueFor(new ValueClassifier("weight")), is(attachedValue));
     }
 }
