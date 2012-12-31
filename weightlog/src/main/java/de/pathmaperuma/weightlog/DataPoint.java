@@ -42,7 +42,7 @@ public class DataPoint {
 
     private final Map<ValueClassifier, Value> values = $Maps.newHashMap();
 
-    private DataPoint(float weight, float fat, float water, float muscle, int kcal, float bone, DateTime date) {
+    public DataPoint(float weight, float fat, float water, float muscle, int kcal, float bone, DateTime date) {
         this.weight = new FloatValue(weight);
         this.fat = new FloatValue(fat);
         this.water = new FloatValue(water);
