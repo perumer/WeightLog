@@ -3,6 +3,8 @@ package de.pathmaperuma.weightlog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import de.pathmaperuma.weightlog.configuration.Daniel;
+import de.pathmaperuma.weightlog.values.ValueAdapter;
 import org.achartengine.ChartFactory;
 import org.achartengine.model.TimeSeries;
 import org.achartengine.model.XYMultipleSeriesDataset;
@@ -15,22 +17,51 @@ import java.util.List;
 public class Graph {
 
     public Intent createIntent(Context context, List<DataPoint> dataPoints) {
-        TimeSeries weightSeries = new TimeSeries("weight (kg)");
-        TimeSeries fatSeries = new TimeSeries("fat (%)");
-        TimeSeries waterSeries = new TimeSeries("water (%)");
-        TimeSeries muscleSeries = new TimeSeries("muscle (%)");
-        TimeSeries kcalSeries = new TimeSeries("kcal/100");
-        TimeSeries boneSeries = new TimeSeries("bone (kg)");
-
+        final TimeSeries weightSeries = new TimeSeries("weight (kg)");
+        final TimeSeries fatSeries = new TimeSeries("fat (%)");
+        final TimeSeries waterSeries = new TimeSeries("water (%)");
+        final TimeSeries muscleSeries = new TimeSeries("muscle (%)");
+        final TimeSeries kcalSeries = new TimeSeries("kcal/100");
+        final TimeSeries boneSeries = new TimeSeries("bone (kg)");
 
         for (DataPoint dataPoint : dataPoints) {
-            Date timeTaken = dataPoint.getTimeTaken().toDate();
-            weightSeries.add(timeTaken, dataPoint.getWeight());
-            kcalSeries.add(timeTaken, dataPoint.getKilokalorien() / 100);
-            muscleSeries.add(timeTaken, dataPoint.getPercentBodyMuscle());
-            fatSeries.add(timeTaken, dataPoint.getPercentBodyFat());
-            waterSeries.add(timeTaken, dataPoint.getPercentBodyWater());
-            boneSeries.add(timeTaken, dataPoint.getBoneWeight());
+            final Date timeTaken = dataPoint.getTimeTaken().toDate();
+            dataPoint.valueFor(Daniel.ClassifierWeight).welcome(new ValueAdapter() {
+                @Override
+                public void visit(float value) {
+                    weightSeries.add(timeTaken, value);
+                }
+            });
+            dataPoint.valueFor(Daniel.ClassifierKiloKalories).welcome(new ValueAdapter() {
+                @Override
+                public void visit(int value) {
+                    kcalSeries.add(timeTaken, value / 100);
+                }
+            });
+            dataPoint.valueFor(Daniel.ClassifierMuscle).welcome(new ValueAdapter() {
+                @Override
+                public void visit(float value) {
+                    muscleSeries.add(timeTaken, value);
+                }
+            });
+            dataPoint.valueFor(Daniel.ClassifierFat).welcome(new ValueAdapter(){
+                @Override
+                public void visit(float value) {
+                    fatSeries.add(timeTaken, value);
+                }
+            });
+            dataPoint.valueFor(Daniel.ClassifierWater).welcome(new ValueAdapter(){
+                @Override
+                public void visit(float value) {
+                    waterSeries.add(timeTaken, value);
+                }
+            });
+            dataPoint.valueFor(Daniel.ClassifierBone).welcome(new ValueAdapter(){
+                @Override
+                public void visit(float value) {
+                   boneSeries.add(timeTaken, value);
+                }
+            });
         }
 
 
