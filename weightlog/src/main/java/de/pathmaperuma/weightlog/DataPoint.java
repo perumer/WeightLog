@@ -22,7 +22,7 @@ public class DataPoint {
     public static final ValueClassifier ClassifierBone = new ValueClassifier("bone");
 
     public static DataPoint Daniel(float weight, float fat, float water, float muscle, int kcal, float bone, DateTime date) {
-        DataPoint dataPoint = new DataPoint(weight, fat, water, muscle, kcal, bone, date);
+        DataPoint dataPoint = new DataPoint(date);
         dataPoint.measured(ClassifierWeight, new FloatValue(weight));
         dataPoint.measured(ClassifierFat, new FloatValue(fat));
         dataPoint.measured(ClassifierWater, new FloatValue(water));
@@ -32,23 +32,10 @@ public class DataPoint {
         return dataPoint;
     }
 
-    private final Value weight;
-    private final Value fat;
-    private final Value water;
-    private final Value muscle;
-    private final Value kcal;
-    private final Value bone;
+    private final Map<ValueClassifier, Value> values = $Maps.newHashMap();
     private final DateTime timeTaken;
 
-    private final Map<ValueClassifier, Value> values = $Maps.newHashMap();
-
-    public DataPoint(float weight, float fat, float water, float muscle, int kcal, float bone, DateTime date) {
-        this.weight = new FloatValue(weight);
-        this.fat = new FloatValue(fat);
-        this.water = new FloatValue(water);
-        this.muscle = new FloatValue(muscle);
-        this.kcal = new IntegerValue(kcal);
-        this.bone = new FloatValue(bone);
+    public DataPoint(DateTime date) {
         this.timeTaken = date;
     }
 
@@ -57,34 +44,28 @@ public class DataPoint {
     }
 
     public float getWeight() {
-        return getFloat(weight);
+        return getFloat(valueFor(ClassifierWeight));
     }
 
     public float getPercentBodyFat() {
-        return getFloat(fat);
-    }
-
-    private float getFloat(Value property) {
-        FloatCaptor captor = new FloatCaptor();
-        property.welcome(captor);
-        return captor.value();
+        return getFloat(valueFor(ClassifierFat));
     }
 
     public float getPercentBodyWater() {
-        return getFloat(water);
+        return getFloat(valueFor(ClassifierWater));
     }
 
     public float getPercentBodyMuscle() {
-        return getFloat(muscle);
+        return getFloat(valueFor(ClassifierMuscle));
     }
 
     public float getBoneWeight() {
-        return getFloat(bone);
+        return getFloat(valueFor(ClassifierBone));
     }
 
     public int getKilokalorien() {
         IntegerCaptor captor = new IntegerCaptor();
-        kcal.welcome(captor);
+        valueFor(ClassifierKiloKalories).welcome(captor);
         return captor.value();
     }
 
@@ -92,15 +73,21 @@ public class DataPoint {
         return timeTaken;
     }
 
-    public Set<ValueClassifier> classifiers() {
-        return values.keySet();
-    }
-
     public void measured(ValueClassifier identifier, Value value) {
         values.put(identifier, value);
     }
 
+    public Set<ValueClassifier> classifiers() {
+        return values.keySet();
+    }
+
     public Value valueFor(ValueClassifier classifier) {
         return values.get(classifier);
+    }
+
+    private float getFloat(Value property) {
+        FloatCaptor captor = new FloatCaptor();
+        property.welcome(captor);
+        return captor.value();
     }
 }

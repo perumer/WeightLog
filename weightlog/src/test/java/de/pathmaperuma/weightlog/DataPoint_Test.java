@@ -10,7 +10,7 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 public class DataPoint_Test {
-    private final DataPoint dataPoint = new DataPoint(0, 0, 0, 0, 0, 0, new DateTime(2012, 5, 3, 12, 45));
+    private final DataPoint dataPoint = new DataPoint(new DateTime(2012, 5, 3, 12, 45));
 
     @Test
     public void formatDateToString() throws Exception {
